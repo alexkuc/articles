@@ -64,6 +64,16 @@
           Sign-up on DigitalOcean and create droplet. When choosing between a password-based authentication and SSH, I choose password based and configure SSH keys/config myself later (also explained here). As mentioned in the beginning, I choose Ubuntu distro version 20.04 LTS (why I haven't chosen Docker is explained below). Choose Droplet specs according to your workload needs.
         </p>
       </div>
+      <div id="docker" class="cell small-10 text-center">
+        <h2 class="h3">
+          <a href="#docker" data-smooth-scroll>Docker</a>
+        </h2>
+      </div>
+      <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
+        <p>
+          Initially I was planning on using Docker for this project. However, I ran into one specific technical detail: docker contains exit on non-zero error. In the scope of this project, this presented a difficulty in keeping docker containers running as, for example, a linter tool would exit with a non-zero exit code if there was an issue. While it is very possible to find a solution and keep docker containers running, I had no hard requirement to use docker.
+        </p>
+      </div>
     </div>
 
     <script>
