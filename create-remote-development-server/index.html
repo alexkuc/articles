@@ -63,7 +63,7 @@
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
-          Sign-up on DigitalOcean and create droplet. When choosing between a password-based authentication and SSH, choose password based as we will configure SSH keys later in this article. As mentioned in the beginning, choose Ubuntu distro version 20.04 LTS (why Docker was not chosen is explained below). Choose Droplet specs according to your workload needs. Other settings can be left with their default values. Choose data center close to your <em>physical</em> location otherwise you might <a href="https://serverfault.com/questions/35453/what-can-cause-slow-ssh-session">encounter poor SSH performance</a>.
+          Sign-up on DigitalOcean and create droplet. When choosing between a password-based authentication and SSH, choose password based as we will configure SSH keys later in this article. As mentioned in the beginning, choose Ubuntu distro version 20.04 LTS (why Docker was not chosen is explained below). Choose Droplet specs according to your workload needs. Other settings can be left with their default values. Choose data center close to your <em>physical</em> location otherwise you might <a href="https://serverfault.com/questions/35453/what-can-cause-slow-ssh-session" target="_blank">encounter poor SSH performance</a>.
         </p>
         <div class="callout warning">
           By default, your Ubuntu droplet starts with as user. It it used to install and configure OS. Afterwards, a non-root user is configured to run operations as a non-root user (explained below). <strong>It is a very bad practise to use root user as an every day user in your development server</strong>.
@@ -99,7 +99,7 @@
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
-          Now we will generate SSH key pair (public and private) on your local machine and add it to your droplet to allow password-less connection. This <a href="https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/">tutorial from DigitalOcean</a> contains step-by-step explanations how to do it. That tutorial covers Windows, Linux and OSX operating systems.
+          Now we will generate SSH key pair (public and private) on your local machine and add it to your droplet to allow password-less connection. This <a href="https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/" target="_blank">tutorial from DigitalOcean</a> contains step-by-step explanations how to do it. That tutorial covers Windows, Linux and OSX operating systems.
         </p>
         <div class="callout primary">
           <p class="h5">Key points if you are a beginner</p>
@@ -111,7 +111,7 @@
             <li>Before doing SSH connection to droplet, you need to add it to <code>ssh-agent</code></li>
             <li>To add SSH key, run <code>ssh-add private_key</code></li>
             <li>Alternatively, you can create SSH profile to automatically add SSH key</li>
-            <li>See <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client">this tutorial from DigitalOcean</a> and <a href="https://www.ssh.com/ssh/config/">OpenSSH manpage</a> for more details</li>
+            <li>See <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client" target="_blank">this tutorial from DigitalOcean</a> and <a href="https://www.ssh.com/ssh/config/" target="_blank">OpenSSH manpage</a> for more details</li>
           </ul>
         </div>
         <div class="callout warning">
@@ -135,7 +135,7 @@
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
-          Node will be installed using <a href="https://snapcraft.io/">Snap</a>. First, determine which version of Node you need to run. You can do so by running: <code>snap info node</code>. Then you can install Node by running: <code>snap install node --classic --channel &#x3C;node_version&#x3E;</code>. For example: <code>snap install node --classic --channel 14/stable</code>. You can confirm installed Node version by running: <code>node --version</code>. If you installed wrong Node version, first uninstall it by running: <code>snap remove node</code>. Then proceed to installing the desired version following previous instructions.
+          Node will be installed using <a href="https://snapcraft.io/" target="_blank">Snap</a>. First, determine which version of Node you need to run. You can do so by running: <code>snap info node</code>. Then you can install Node by running: <code>snap install node --classic --channel &#x3C;node_version&#x3E;</code>. For example: <code>snap install node --classic --channel 14/stable</code>. You can confirm installed Node version by running: <code>node --version</code>. If you installed wrong Node version, first uninstall it by running: <code>snap remove node</code>. Then proceed to installing the desired version following previous instructions.
         </p>
       </div>
       <div id="nginx" class="cell small-10 text-center">
