@@ -144,7 +144,22 @@
         </h2>
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
-        <p>…</p>
+        <p>
+          Canonical published an excellent step-by-step <a href="https://ubuntu.com/tutorials/install-and-configure-nginx#1-overview" target="_blank">tutorial</a> on installing nginx in Ubuntu.
+        </p>
+        <div class="callout primary">
+          <p class="h5">Quick information for beginners:</p>
+          <ul>
+            <li>Config files location: <code>/etc/nginx</code></li>
+            <li>Primary config file: <code>nginx.conf</code></li>
+            <li>Auto-loading configs from: <code>conf.d/</code></li>
+            <li>Add website configs to: <code>sites-available/</code></li>
+            <li>Enable website by symlinking from <code>sites-available/</code> to <code>sites-enabled/</code></li>
+            <li>Create symbolic link by running <code>ln -s source destination</code></li>
+            <li>When creating symlink, <strong>make sure to use absolute path</strong></li>
+            <li><a href="https://unix.stackexchange.com/questions/7769/should-i-include-a-trailing-slash-in-a-symlink-to-a-directory" target="_blank">Should I include a trailing slash / in a symlink to a directory?</a></li>
+          </ul>
+        </div>
       </div>
       <div id="ufw" class="cell small-10 text-center">
         <h2>
