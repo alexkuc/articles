@@ -82,9 +82,9 @@
           Initially I was planning on using Docker for this project. However, I ran into one specific technical detail: Docker containers exit on non-zero error. In the scope of this project, this presented a difficulty in keeping Docker containers running as, for example, a linting tool would exit with a non-zero exit code if there was an issue. While it is very possible to find a solution and keep Docker containers running, I had no hard requirement to use docker. Hence I have decided to create a "conventional" or "traditional" development server.
         </p>
       </div>
-      <div id="openssh" class="cell small-10 text-center">
+      <div id="ssh" class="cell small-10 text-center">
         <h2>
-          <a href="#openssh" data-smooth-scroll>OpenSSH</a>
+          <a href="#ssh" data-smooth-scroll>OpenSSH</a>
         </h2>
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
@@ -92,9 +92,9 @@
           Once your droplet is up and running, it is time to configure SSH keys to allow password-less authentication. My recommendation is to use keys with passphrase with key-agent running on your local machine. This allows to "cache" passphrase so you enter it only once when you start a new terminal session. For security reasons, it is better to separate root password from root SSH passphrase.
         </p>
       </div>
-      <div id="openssh-keys" class="cell small-10 text-center">
+      <div id="ssh-keys" class="cell small-10 text-center">
         <h3>
-          <a href="#openssh" data-smooth-scroll>Keys</a>
+          <a href="#ssh-keys" data-smooth-scroll>Keys</a>
         </h3>
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
@@ -188,7 +188,27 @@
         </h2>
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
-        <p>…</p>
+        <p>
+          We will create a non-root user which we will use to sync source code from our local machine to remote. We will also use the same user to execute any developer tools. As mentioned in the beginning, using root for every day work is a very bad habit (<a href="https://askubuntu.com/questions/16178/why-is-it-bad-to-log-in-as-root">example explanation</a>).
+        </p>
+        <p>
+          To create a new user, simply run: <code>adduser --home /home/developer --shell /bin/bash developer</code>. This command will create a new user called <i>developer</i> which home directory at <code>/home/developer</code> and default shell as bash (<code>/bin/bash</code>). Note that this is an interactive command so you will need to supply user password and some other (trivial) information. Then we will set its primary user group as <i>www-data</i>. This is required for nginx to be able to parse files to serve them. To do that, run: <code>usermod -g www-data developer</code>.
+        </p>
+        <p>
+          To verify that you have successfully run these commands, do this: <code>id developer</code>. Example of successful outcome: <i>uid=1001(developer) gid=33(www-data) groups=33(www-data)</i>. Disregard numeric (id) values as they can vary from system to system. Instead look at the values in the brackets. Bracket value of uid shows username and bracket value of gid shows name of the primary grould. The first value should be <code>developer</code> and the second value should <i>www-data</i>.
+        </p>
+        <p>
+          Now repeat steps for generating SSH keys for user <i>developer</i> from the <a href="#ssh-keys" target="_blank">Keys (opens new tab)</a> sub-section.
+        </p>
+        <div class="callout warning">
+          <p class="h5">Troubleshooting tips for beginners</p>
+          <ul>
+            <li>If you made a typo, you can delete user: <code>deluser --remove-home user</code></li>
+            <li>Confirm user deletion: <code>getent passwd user</code></li>
+            <li>Confirm primary group deletion: <code>getent group user</code></li>
+            <li>Hint: if entry is deleted, getent will return nothing</li>
+          </ul>
+        </div>
       </div>
       <div id="rsync" class="cell small-10 text-center">
         <h2>
