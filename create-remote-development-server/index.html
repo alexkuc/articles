@@ -73,7 +73,7 @@
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
-          Initially I was planning on using Docker for this project. However, I ran into one specific technical detail: docker contains exit on non-zero error. In the scope of this project, this presented a difficulty in keeping docker containers running as, for example, a linter tool would exit with a non-zero exit code if there was an issue. While it is very possible to find a solution and keep docker containers running, I had no hard requirement to use docker.
+          Initially I was planning on using Docker for this project. However, I ran into one specific technical detail: Docker containers exit on non-zero error. In the scope of this project, this presented a difficulty in keeping Docker containers running as, for example, a linting tool would exit with a non-zero exit code if there was an issue. While it is very possible to find a solution and keep Docker containers running, I had no hard requirement to use docker. Hence I have decided to create a "conventional" or "traditional" development server.
         </p>
       </div>
       <div id="openssh" class="cell small-10 text-center">
