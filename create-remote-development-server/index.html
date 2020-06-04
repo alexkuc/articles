@@ -167,7 +167,20 @@
         </h2>
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
-        <p>…</p>
+        <p>
+          DigitalOcean image of Ubuntu has <a href="https://help.ubuntu.com/community/UFW">UFW</a> disabled by default. Despite your remote development server being private, it is still important to maintain a certain level of security. Having a firewall is one of those measurements. Before enabling ufw, you need to permit SSH (and other) ports otherwise your SSH connection will drop. To allow SSH connections, run: <code>ufw allow OpenSSH</code>. If you use non-standard SSH port (i.e. not 22), follow <a href="https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands">this tutorial from DigitalOcean</a>. Since we will also require nginx connection, permit that as well by running: <code>ufw allow "Nginx Full"</code>. As you have noticed, if app name has a space in it, you need to enclose it in quotes. To view list of existing application profiles, run: <code>ufw app list</code>. Note that these are pre-configured profiles which assume default ports. If you run non-standard ports, refer to the DigitalOcean tutorial linked previously. To enable ufw, simply run: <code>ufw enable</code>. In case something goes wrong, you always have <abbr title="Out-of-band management">OOBM</abbr> access via console in DigitalOcean.
+        </p>
+        <div class="callout warning">
+          <p class="h5">Troubleshooting tips for beginners</p>
+          <ul>
+            <li>To disable ufw: <code>ufw disable</code></li>
+            <li>Reset (delete all rules): <code>ufw reset</code></li>
+            <li>To delete rule: <code>ufw delete rule</code>, e.g. <code>ufw delete allow OpenSSH</code></li>
+          </ul>
+        </div>
+        <div class="callout warning">
+          Generally speaking, whenever dealing with firewalls, routing tables, etc., it is <strong>extremely important to verify twice or thrice that your changes will not break your current connection</strong>. Ideally, you want <abbr title="Out-of-band management">OOBM</abbr> in place in case your primary remote connection stops working. DigitalOcean provides that in a form of console.
+        </div>
       </div>
       <div id="non-root-user" class="cell small-10 text-center">
         <h2>
