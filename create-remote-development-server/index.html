@@ -114,6 +114,19 @@
             <li>See <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client" target="_blank">this tutorial from DigitalOcean</a> and <a href="https://www.ssh.com/ssh/config/" target="_blank">OpenSSH manpage</a> for more details</li>
           </ul>
         </div>
+        <div class="callout primary">
+          <p class="h5">Config information for beginners</p>
+          <ul>
+            <li>The information below relates to droplet</li>
+            <li>Config files location: <code>/etc/ssh/</code></li>
+            <li>Primary config file*: <code>sshd_config</code></li>
+            <li>Auto-load configs from: <code>/sshd_config.d</code></li>
+            <li>*Do not confuse sshd_config with ssh_config</li>
+            <li>The former (sshd_config) relates to <i>server</i> configuration</li>
+            <li>The latter (ssh_config) relates to <i>client</i> configuration</li>
+            <li>Server <i>accepts</i> connections while client <i>initiates</i> connections</li>
+          </ul>
+        </div>
         <div class="callout warning">
           <p class="h5">Troubleshooting steps</p>
           <ul>
