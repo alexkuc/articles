@@ -9,32 +9,40 @@
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="./foundation.min.css"> <!-- includes xlarge and xxlarge breakpoints -->
     <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/js/foundation.min.js" integrity="sha256-pRF3zifJRA9jXGv++b06qwtSqX1byFQOLjqa2PTEb2o=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./style.css">
     <title>Create Remote Development Server</title>
   </head>
   <body>
 
     <div class="grid-x grid-padding-x grid-padding-y">
-      <div class="cell small-1"></div>
-      <div class="cell small-10">
+      <div class="cell small-12 text-center">
         <h1>Create Remote Development Server</h1>
-        <h2 class="h3">Introduction</h2>
+      </div>
+      <div id="intro" class="cell small-12 text-center">
+        <h2 class="h3">
+          <a href="#intro" data-smooth-scroll>Introduction</a>
+        </h2>
+      </div>
+      <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
           There are circumstances when you local machine is not suitable for heavy processing or its operating system is incompatible with your target environment. While it is possible to find a workaround or a compromise, this article examines an alternative solution.
         </p>
         <p>
           There is nothing new in having data stored in one system and having it processed in another. This article will provide a pragmatic approach towards creating a remote development server where source code modification will happen locally and any processing will be done remotely.
         </p>
-        <div class="show-for-small-only">
-          <p>
-            <a href="https://alexkuc.github.io/blog/articles/create-remote-development-server/high-level-overview.png" target="_blank">Show high level overview</a>
-          </p>
-        </div>
-        <div class="show-for-medium-only">
-          <img src="https://alexkuc.github.io/blog/articles/create-remote-development-server/high-level-overview.png" alt="High level overview" target="_blank">
-        </div>
-        <div class="show-for-large">
-          <img src="https://alexkuc.github.io/blog/articles/create-remote-development-server/high-level-overview.png" alt="High level overview" target="_blank" style="max-width: 75%;">
-        </div>
+        <p class="hide-for-large">
+          <a href="./high-level-overview.png" target="_blank">Show high level overview</a>
+        </p>
+        <p class="show-for-large">
+          <a data-toggle="diagram">
+            Show high level overview
+          </a>
+          <div class="hide" id="diagram" data-toggler="hide">
+            <div class="callout">
+              <img src="./high-level-overview.png" alt="High level overview">
+            </div>
+          </div>
+        </p>
         <p>
           The setup will consist of the following:
           <ul>
@@ -46,9 +54,7 @@
           </ul>
         </p>
       </div>
-      <div class="cell small-1"></div>
     </div>
-
 
     <script>
       $(document).ready(function(){
