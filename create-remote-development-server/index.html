@@ -21,7 +21,7 @@
         <h1>Create Remote Development Server</h1>
       </div>
       <div id="intro" class="cell small-12 text-center">
-        <h2 class="h3">
+        <h2>
           <a href="#intro" data-smooth-scroll>Introduction</a>
         </h2>
       </div>
@@ -57,7 +57,7 @@
         </p>
       </div>
       <div id="create-droplet" class="cell small-10 text-center">
-        <h2 class="h3">
+        <h2>
           <a href="#create-droplet" data-smooth-scroll>Create Droplet</a>
         </h2>
       </div>
@@ -67,7 +67,7 @@
         </p>
       </div>
       <div id="docker" class="cell small-10 text-center">
-        <h2 class="h3">
+        <h2>
           <a href="#docker" data-smooth-scroll>Docker</a>
         </h2>
       </div>
@@ -77,42 +77,53 @@
         </p>
       </div>
       <div id="openssh" class="cell small-10 text-center">
-        <h2 class="h3">
+        <h2>
           <a href="#openssh" data-smooth-scroll>OpenSSH</a>
         </h2>
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
-          Once your droplet is up and running, it is time to configure SSH keys to allow password-less authentication. My recommendation is to use keys with passphrase with key-agent running on your local machine. This allows to "cache" passphrase so you enter it only once when you start a new terminal session.
+          Once your droplet is up and running, it is time to configure SSH keys to allow password-less authentication. My recommendation is to use keys with passphrase with key-agent running on your local machine. This allows to "cache" passphrase so you enter it only once when you start a new terminal session. For security reasons, it is better to separate root password from root SSH passphrase.
         </p>
-        <ul>
-          <li>Follow tutorial from <a href="https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/">DigitalOcean</a></li>
-          <li><a data-toggle="ssh-permissions">Make sure you set the correct permissions otherwise authentication will fail:</a></li>
-          <div id="ssh-permissions" class="callout hide" data-toggler="hide">
-            <ul>
-              <li>The directory should be own by the user: <code>chown -R $USER:$USER</code></li>
-              <li>The directory should have permissions 700 <code>chmod 700 ~/.ssh</code></li>
-              <li>The file <code>authorized_keys</code> should have permissions 600: <code>chmod 600 ~/.ssh/authorized_keys</code> (applies to droplet)</li>
-            </ul>
-          </div>
-          <li>Cache SSH passphrase by getting ssh-agent pid in your local machine: <code>eval "$(ssh-agent -s)"</code></li>
-          <li>You can <a href="https://linuxize.com/post/using-the-ssh-config-file/">create SSH profile</a> in your home directory to create a "shortcut" to your SSH connection</li>
-          <li>Try to connect to your droplet remotely via ssh: <code>ssh root@droplet_ip</code></li>
-          <li>
-            <a data-toggle="ssh-debugging">Try these debugging steps if something did not work as expected:</a>
-          </li>
-          <div id="ssh-debugging" class="callout hide" data-toggler="hide">
-            <ul>
-              <li><a href="https://linuxize.com/post/using-the-ssh-config-file/">Create SSH profile</a> in your droplet to enable log of connection: <code>LogLevel DEBUG</code></li>
-              <li>Connect with verbose flag <code>-v</code> in your local machine: <code>ssh -v root@droplet_ip</code></li>
-            </ul>
-          </div>
-          <li>Permit ssh connection through the firewall in your droplet: <code>ufw allow ssh</code></li>
-          <li>If you are using non-standard ssh port see <a href="https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands">this tutorial from DigitalOcean</a></li>
-        </ul>
+      </div>
+      <div id="openssh-keys" class="cell small-10 text-center">
+        <h3>
+          <a href="#openssh" data-smooth-scroll>Keys</a>
+        </h3>
+      </div>
+      <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
+        <p>
+          Now we will generate SSH key pair (public and private) on your local machine and add it to your droplet to allow password-less connection. This <a href="https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/">tutorial from DigitalOcean</a> contains step-by-step explanations how to do it. That tutorial covers Windows, Linux and OSX operating systems.
+        </p>
+        <div class="callout primary">
+          <p class="h5">Key points if you are a beginner</p>
+          <ul>
+            <li>To start your ssh-agent, do: <code>eval "$(ssh-agent -s)"</code></li>
+            <li>To automatically start ssh-agent, add above line to your profile script</li>
+            <li>By default, <code>ssh-keygen</code> will generate keys in the current folder</li>
+            <li>Typically, you store SSH keys in <code>~/.ssh/</code> so navigate to that directory first</li>
+            <li>Before doing SSH connection to droplet, you need to add it to <code>ssh-agent</code></li>
+            <li>To add SSH key, run <code>ssh-add private_key</code></li>
+            <li>Alternatively, you can create SSH profile to automatically add SSH key</li>
+            <li>See <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client">this tutorial from DigitalOcean</a> and <a href="https://www.ssh.com/ssh/config/">OpenSSH manpage</a> for more details</li>
+          </ul>
+        </div>
+        <div class="callout warning">
+          <p class="h5">Troubleshooting steps</p>
+          <ul>
+            <li>Run <code>ssh-add -l</code> to check if your private SSH key was added or not</li>
+            <li>Troubleshoot SSH connection locally: <code>ssh -v user@host</code></li>
+            <li>Troubleshoot SSH connection remotely:</li>
+            <li>To troubleshoot SSH from remote end, add the following line to SSH config in <em>droplet</em>: <code>LogLevel DEBUG</code></li>
+            <li>Make sure you set correct permissions otherwise authentication will not work:</li>
+            <li>Directory should be owned by the current user: <br> <code>chown -R $USER:$USER ~/.ssh/</code></li>
+            <li>Directory should have permissions 700 <code>chmod 700 ~/.ssh</code></li>
+            <li>File <code>authorized_keys</code> (droplet) should have permissions 600: <br> <code>chmod 600 ~/.ssh/authorized_keys</code></li>
+          </ul>
+        </div>
       </div>
       <div id="node" class="cell small-10 text-center">
-        <h2 class="h3">
+        <h2>
           <a href="#node" data-smooth-scroll>Node</a>
         </h2>
       </div>
@@ -120,7 +131,7 @@
         <p>…</p>
       </div>
       <div id="nginx" class="cell small-10 text-center">
-        <h2 class="h3">
+        <h2>
           <a href="#nginx" data-smooth-scroll>Nginx</a>
         </h2>
       </div>
@@ -128,7 +139,7 @@
         <p>…</p>
       </div>
       <div id="ufw" class="cell small-10 text-center">
-        <h2 class="h3">
+        <h2>
           <a href="#ufw" data-smooth-scroll>UFW</a>
         </h2>
       </div>
@@ -136,7 +147,7 @@
         <p>…</p>
       </div>
       <div id="non-root-user" class="cell small-10 text-center">
-        <h2 class="h3">
+        <h2>
           <a href="#non-root-user" data-smooth-scroll>Non-Root User</a>
         </h2>
       </div>
@@ -144,7 +155,7 @@
         <p>…</p>
       </div>
       <div id="rsync" class="cell small-10 text-center">
-        <h2 class="h3">
+        <h2>
           <a href="#rsync" data-smooth-scroll>Rsync</a>
         </h2>
       </div>
