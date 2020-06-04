@@ -69,8 +69,7 @@
           By default, your Ubuntu droplet starts with as user. It it used to install and configure OS. Afterwards, a non-root user is configured to run operations as a non-root user (explained below). <strong>It is a very bad practise to use root user as an every day user in your development server</strong>.
         </div>
         <div class="callout primary">
-          Update your Ubuntu installation after it is up by running: <br>
-          <code>apt-get update && apt-get upgrade</code>
+          Update your Ubuntu installation after it is up by running: <code>apt-get update && apt-get upgrade</code>
         </div>
       </div>
       <div id="docker" class="cell small-10 text-center">
@@ -123,9 +122,9 @@
             <li>Troubleshoot SSH connection remotely:</li>
             <li>To troubleshoot SSH from remote end, add the following line to SSH config in <em>droplet</em>: <code>LogLevel DEBUG</code></li>
             <li>Make sure you set correct permissions otherwise authentication will not work:</li>
-            <li>Directory should be owned by the current user: <br> <code>chown -R $USER:$USER ~/.ssh/</code></li>
+            <li>Directory should be owned by the current user: <code>chown -R $USER:$USER ~/.ssh/</code></li>
             <li>Directory should have permissions 700 <code>chmod 700 ~/.ssh</code></li>
-            <li>File <code>authorized_keys</code> (droplet) should have permissions 600: <br> <code>chmod 600 ~/.ssh/authorized_keys</code></li>
+            <li>File <code>authorized_keys</code> (droplet) should have permissions 600: <code>chmod 600 ~/.ssh/authorized_keys</code></li>
           </ul>
         </div>
       </div>
