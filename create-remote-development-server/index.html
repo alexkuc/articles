@@ -74,6 +74,41 @@
           Initially I was planning on using Docker for this project. However, I ran into one specific technical detail: docker contains exit on non-zero error. In the scope of this project, this presented a difficulty in keeping docker containers running as, for example, a linter tool would exit with a non-zero exit code if there was an issue. While it is very possible to find a solution and keep docker containers running, I had no hard requirement to use docker.
         </p>
       </div>
+      <div id="openssh" class="cell small-10 text-center">
+        <h2 class="h3">
+          <a href="#openssh" data-smooth-scroll>OpenSSH</a>
+        </h2>
+      </div>
+      <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
+        <p>
+          Once your droplet is up and running, it is time to configure SSH keys to allow password-less authentication. My recommendation is to use keys with passphrase with key-agent running on your local machine. This allows to "cache" passphrase so you enter it only once when you start a new terminal session.
+        </p>
+        <ul>
+          <li>Follow tutorial from <a href="https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/">DigitalOcean</a></li>
+          <li><a data-toggle="ssh-permissions">Make sure you set the correct permissions otherwise authentication will fail:</a></li>
+          <div id="ssh-permissions" class="callout hide" data-toggler="hide">
+            <ul>
+              <li>The directory should be own by the user: <code>chown -R $USER:$USER</code></li>
+              <li>The directory should have permissions 700 <code>chmod 700 ~/.ssh</code></li>
+              <li>The file <code>authorized_keys</code> should have permissions 600: <code>chmod 600 ~/.ssh/authorized_keys</code> (applies to droplet)</li>
+            </ul>
+          </div>
+          <li>Cache SSH passphrase by getting ssh-agent pid in your local machine: <code>eval "$(ssh-agent -s)"</code></li>
+          <li>You can <a href="https://linuxize.com/post/using-the-ssh-config-file/">create SSH profile</a> in your home directory to create a "shortcut" to your SSH connection</li>
+          <li>Try to connect to your droplet remotely via ssh: <code>ssh root@droplet_ip</code></li>
+          <li>
+            <a data-toggle="ssh-debugging">Try these debugging steps if something did not work as expected:</a>
+          </li>
+          <div id="ssh-debugging" class="callout hide" data-toggler="hide">
+            <ul>
+              <li><a href="https://linuxize.com/post/using-the-ssh-config-file/">Create SSH profile</a> in your droplet to enable log of connection: <code>LogLevel DEBUG</code></li>
+              <li>Connect with verbose flag <code>-v</code> in your local machine: <code>ssh -v root@droplet_ip</code></li>
+            </ul>
+          </div>
+          <li>Permit ssh connection through the firewall in your droplet: <code>ufw allow ssh</code></li>
+          <li>If you are using non-standard ssh port see <a href="https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands">this tutorial from DigitalOcean</a></li>
+        </ul>
+      </div>
     </div>
 
     <script>
