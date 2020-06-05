@@ -55,6 +55,7 @@
             <li>rsync and inotifywait</li>
           </ul>
         </p>
+        <hr>
       </div>
       <div id="create-droplet" class="cell small-10 text-center">
         <h2>
@@ -71,6 +72,7 @@
         <div class="callout primary">
           Update your Ubuntu installation after it is up by running: <code>apt-get update && apt-get upgrade</code>
         </div>
+        <hr>
       </div>
       <div id="docker" class="cell small-10 text-center">
         <h2>
@@ -81,6 +83,7 @@
         <p>
           Initially I was planning on using Docker for this project. However, I ran into one specific technical detail: Docker containers exit on non-zero error. In the scope of this project, this presented a difficulty in keeping Docker containers running as, for example, a linting tool would exit with a non-zero exit code if there was an issue. While it is very possible to find a solution and keep Docker containers running, I had no hard requirement to use docker. Hence I have decided to create a "conventional" or "traditional" development server.
         </p>
+        <hr>
       </div>
       <div id="ssh" class="cell small-10 text-center">
         <h2>
@@ -91,6 +94,7 @@
         <p>
           Once your droplet is up and running, it is time to configure SSH keys to allow password-less authentication. My recommendation is to use keys with passphrase with key-agent running on your local machine. This allows to "cache" passphrase so you enter it only once when you start a new terminal session. For security reasons, it is better to separate root password from root SSH passphrase.
         </p>
+        <hr>
       </div>
       <div id="ssh-keys" class="cell small-10 text-center">
         <h3>
@@ -140,6 +144,7 @@
             <li>File <code>authorized_keys</code> (droplet) should have permissions 600: <code>chmod 600 ~/.ssh/authorized_keys</code></li>
           </ul>
         </div>
+        <hr>
       </div>
       <div id="node" class="cell small-10 text-center">
         <h2>
@@ -150,6 +155,7 @@
         <p>
           Node will be installed using <a href="https://snapcraft.io/" target="_blank">Snap</a>. First, determine which version of Node you need to run. You can do so by running: <code>snap info node</code>. Then you can install Node by running: <code>snap install node --classic --channel &#x3C;node_version&#x3E;</code>. For example: <code>snap install node --classic --channel 14/stable</code>. You can confirm installed Node version by running: <code>node --version</code>. If you installed wrong Node version, first uninstall it by running: <code>snap remove node</code>. Then proceed to installing the desired version following previous instructions.
         </p>
+        <hr>
       </div>
       <div id="nginx" class="cell small-10 text-center">
         <h2>
@@ -173,6 +179,7 @@
             <li><a href="https://unix.stackexchange.com/questions/7769/should-i-include-a-trailing-slash-in-a-symlink-to-a-directory" target="_blank">Should I include a trailing slash / in a symlink to a directory?</a></li>
           </ul>
         </div>
+        <hr>
       </div>
       <div id="ufw" class="cell small-10 text-center">
         <h2>
@@ -194,6 +201,7 @@
         <div class="callout warning">
           Generally speaking, whenever dealing with firewalls, routing tables, etc., it is <strong>extremely important to verify twice or thrice that your changes will not break your current connection</strong>. Ideally, you want <abbr title="Out-of-band management">OOBM</abbr> in place in case your primary remote connection stops working. DigitalOcean provides that in a form of console.
         </div>
+        <hr>
       </div>
       <div id="non-root-user" class="cell small-10 text-center">
         <h2>
@@ -222,6 +230,7 @@
             <li>Hint: if entry is deleted, getent will return nothing</li>
           </ul>
         </div>
+        <hr>
       </div>
       <div id="rsync" class="cell small-10 text-center">
         <h2>
@@ -230,6 +239,7 @@
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>…</p>
+        <hr>
       </div>
     </div>
 
