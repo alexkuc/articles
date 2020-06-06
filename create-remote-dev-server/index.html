@@ -54,29 +54,27 @@
           There is nothing new in having data stored in one system and having it processed in another. While conceptually everything is very clear, the implementation details can greatly vary. This article focuses on so-called conventional server where there is no abstract layer between the OS itself and the tools used to process source code.
         </p>
         <p class="hide-for-large">
-          <a href="./high-level-overview.png" target="_blank">Show high level overview</a>
+          <a href="./high-level-overview.png" target="_blank">Show high level overview (new tab)</a>
         </p>
         <p class="show-for-large">
           <a data-toggle="diagram">
             Show high level overview
           </a>
-          <div class="hide" id="diagram" data-toggler="hide">
-            <div class="callout">
-              <img src="./high-level-overview.png" alt="High level overview">
-            </div>
-          </div>
         </p>
+        <div id="diagram" class="callout hide" data-toggler="hide">
+          <img src="./high-level-overview.png" alt="High level overview">
+        </div>
         <p>
           The setup will consist of the following:
-          <ul>
-            <li>DigitalOcean</li>
-            <li>Ubuntu 20.04 LTS (droplet image)</li>
-            <li>OpenSSH (preinstalled on image)</li>
-            <li>Node and nginx (development tooling)</li>
-            <li>rsync (sync changes to remote)</li>
-            <li>inotifywait (watch directory for changes)</li>
-          </ul>
         </p>
+        <ul>
+          <li>DigitalOcean</li>
+          <li>Ubuntu 20.04 LTS (droplet image)</li>
+          <li>OpenSSH (preinstalled on image)</li>
+          <li>Node and nginx (development tooling)</li>
+          <li>rsync (sync changes to remote)</li>
+          <li>inotifywait (watch directory for changes)</li>
+        </ul>
         <hr>
       </div>
       <div id="create-droplet" class="cell small-10 text-center">
