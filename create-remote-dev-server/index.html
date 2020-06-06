@@ -71,7 +71,8 @@
           By default, your Ubuntu droplet starts with as user. It it used to install and configure OS. Afterwards, a non-root user is configured to run operations as a non-root user (explained below). <strong>It is a very bad practise to use root user as an every day user in your development server</strong>.
         </div>
         <div class="callout primary">
-          Update your Ubuntu installation after it is up by running: <code>apt-get update && apt-get upgrade</code>
+          <p>Update your Ubuntu installation after it is up by running:</p>
+          <code class="code-block">apt-get update && apt-get upgrade</code>
         </div>
         <hr>
       </div>
@@ -109,12 +110,12 @@
         <div class="callout primary">
           <p class="h5">Key points if you are a beginner</p>
           <ul>
-            <li>To start your ssh-agent, do: <code>eval "$(ssh-agent -s)"</code></li>
+            <li>To start your ssh-agent, do: <code class="code-block">eval "$(ssh-agent -s)"</code></li>
             <li>To automatically start ssh-agent, add above line to your profile script</li>
             <li>By default, <code>ssh-keygen</code> will generate keys in the current folder</li>
             <li>Typically, you store SSH keys in <code>~/.ssh/</code> so navigate to that directory first</li>
             <li>Before doing SSH connection to droplet, you need to add it to <code>ssh-agent</code></li>
-            <li>To add SSH key, run <code>ssh-add private_key</code></li>
+            <li>To add SSH key, run <code class="code-block">ssh-add private_key</code></li>
             <li>Alternatively, you can create SSH profile to automatically add SSH key</li>
             <li>See <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client" target="_blank">this tutorial from DigitalOcean</a> and <a href="https://www.ssh.com/ssh/config/" target="_blank">OpenSSH manpage</a> for more details</li>
           </ul>
@@ -135,14 +136,14 @@
         <div class="callout warning">
           <p class="h5">Troubleshooting steps</p>
           <ul>
-            <li>Run <code>ssh-add -l</code> to check if your private SSH key was added or not</li>
-            <li>Troubleshoot SSH connection locally: <code>ssh -v user@host</code></li>
+            <li>Run <code class="code-block">ssh-add -l</code> to check if your private SSH key was added or not</li>
+            <li>Troubleshoot SSH connection locally: <code class="code-block">ssh -v user@host</code></li>
             <li>Troubleshoot SSH connection remotely:</li>
             <li>To troubleshoot SSH from remote end, add the following line to SSH config in <em>droplet</em>: <code>LogLevel DEBUG</code></li>
             <li>Make sure you set correct permissions otherwise authentication will not work:</li>
-            <li>Directory should be owned by the current user: <code>chown -R $USER:$USER ~/.ssh/</code></li>
-            <li>Directory should have permissions 700 <code>chmod 700 ~/.ssh</code></li>
-            <li>File <code>authorized_keys</code> (droplet) should have permissions 600: <code>chmod 600 ~/.ssh/authorized_keys</code></li>
+            <li>Directory should be owned by the current user: <code class="code-block">chown -R $USER:$USER ~/.ssh/</code></li>
+            <li>Directory should have permissions 700 <code class="code-block">chmod 700 ~/.ssh</code></li>
+            <li>File <code>authorized_keys</code> (droplet) should have permissions 600: <code class="code-block">chmod 600 ~/.ssh/authorized_keys</code></li>
           </ul>
         </div>
         <hr>
@@ -154,7 +155,7 @@
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
-          Node will be installed using <a href="https://snapcraft.io/" target="_blank">Snap</a>. First, determine which version of Node you need to run. You can do so by running: <code>snap info node</code>. Then you can install Node by running: <code>snap install node --classic --channel &#x3C;node_version&#x3E;</code>. For example: <code>snap install node --classic --channel 14/stable</code>. You can confirm installed Node version by running: <code>node --version</code>. If you installed wrong Node version, first uninstall it by running: <code>snap remove node</code>. Then proceed to installing the desired version following previous instructions.
+          Node will be installed using <a href="https://snapcraft.io/" target="_blank">Snap</a>. First, determine which version of Node you need to run. You can do so by running: <code>snap info node</code>. Then you can install Node by running: <code class="code-block">snap install node --classic --channel &#x3C;node_version&#x3E;</code> For example: <code class="code-block">snap install node --classic --channel 14/stable</code> You can confirm installed Node version by running: <code>node --version</code>. If you installed wrong Node version, first uninstall it by running: <code>snap remove node</code>. Then proceed to installing the desired version following previous instructions.
         </p>
         <hr>
       </div>
@@ -175,7 +176,7 @@
             <li>Auto-loading configs from: <code>conf.d/</code></li>
             <li>Add website configs to: <code>sites-available/</code></li>
             <li>Enable website by symlinking from <code>sites-available/</code> to <code>sites-enabled/</code></li>
-            <li>Create symbolic link by running <code>ln -s source destination</code></li>
+            <li>Create symbolic link by running <code class="code-block">ln -s source destination</code></li>
             <li>When creating symlink, <strong>make sure to use absolute path</strong></li>
             <li><a href="https://unix.stackexchange.com/questions/7769/should-i-include-a-trailing-slash-in-a-symlink-to-a-directory" target="_blank">Should I include a trailing slash / in a symlink to a directory?</a></li>
           </ul>
@@ -189,14 +190,15 @@
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
-          DigitalOcean image of Ubuntu has <a href="https://help.ubuntu.com/community/UFW">UFW</a> disabled by default. Despite your remote development server being private, it is still important to maintain a certain level of security. Having a firewall is one of those measurements. Before enabling ufw, you need to permit SSH (and other) ports otherwise your SSH connection will drop. To allow SSH connections, run: <code>ufw allow OpenSSH</code>. If you use non-standard SSH port (i.e. not 22), follow <a href="https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands">this tutorial from DigitalOcean</a>. Since we will also require nginx connection, permit that as well by running: <code>ufw allow "Nginx Full"</code>. As you have noticed, if app name has a space in it, you need to enclose it in quotes. To view list of existing application profiles, run: <code>ufw app list</code>. Note that these are pre-configured profiles which assume default ports. If you run non-standard ports, refer to the DigitalOcean tutorial linked previously. To enable ufw, simply run: <code>ufw enable</code>. In case something goes wrong, you always have <abbr title="Out-of-band management">OOBM</abbr> access via console in DigitalOcean.
+          DigitalOcean image of Ubuntu has <a href="https://help.ubuntu.com/community/UFW">UFW</a> disabled by default. Despite your remote development server being private, it is still important to maintain a certain level of security. Having a firewall is one of those measurements. Before enabling ufw, you need to permit SSH (and other) ports otherwise your SSH connection will drop. To allow SSH connections, run: <code class="code-block">ufw allow OpenSSH</code> If you use non-standard SSH port (i.e. not 22), follow <a href="https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands">this tutorial from DigitalOcean</a>. Since we will also require nginx connection, permit that as well by running: <code class="code-block">ufw allow "Nginx Full"</code> As you have noticed, if app name has a space in it, you need to enclose it in quotes. To view list of existing application profiles, run: <code class="code-block">ufw app list</code> Note that these are pre-configured profiles which assume default ports. If you run non-standard ports, refer to the DigitalOcean tutorial linked previously. To enable ufw, simply run: <code class="code-block">ufw enable</code> In case something goes wrong, you always have <abbr title="Out-of-band management">OOBM</abbr> access via console in DigitalOcean.
         </p>
         <div class="callout warning">
           <p class="h5">Troubleshooting tips for beginners</p>
           <ul>
-            <li>To disable ufw: <code>ufw disable</code></li>
-            <li>Reset (delete all rules): <code>ufw reset</code></li>
-            <li>To delete rule: <code>ufw delete rule</code>, e.g. <code>ufw delete allow OpenSSH</code></li>
+            <li>To disable ufw: <code class="code-block">ufw disable</code></li>
+            <li>Reset (delete all rules): <code class="code-block">ufw reset</code></li>
+            <li>To delete rule: <code class="code-block">ufw delete rule</code></li>
+            <li>For example: <code class="code-block">ufw delete allow OpenSSH</code></li>
           </ul>
         </div>
         <div class="callout warning">
@@ -214,10 +216,10 @@
           We will create a non-root user which we will use to sync source code from our local machine to remote. We will also use the same user to execute any developer tools. As mentioned in the beginning, using root for every day work is a very bad habit (<a href="https://askubuntu.com/questions/16178/why-is-it-bad-to-log-in-as-root">example explanation</a>).
         </p>
         <p>
-          To create a new user, simply run: <code>adduser --home /home/developer --shell /bin/bash developer</code>. This command will create a new user called <i>developer</i> which home directory at <code>/home/developer</code> and default shell as bash (<code>/bin/bash</code>). Note that this is an interactive command so you will need to supply user password and some other (trivial) information. Then we will set its primary user group as <i>www-data</i>. This is required for nginx to be able to parse files to serve them. To do that, run: <code>usermod -g www-data developer</code>.
+          To create a new user, simply run: <code class="code-block">adduser --home /home/developer --shell /bin/bash developer</code>. This command will create a new user called <i>developer</i> which home directory at <code>/home/developer</code> and default shell as bash (<code>/bin/bash</code>). Note that this is an interactive command so you will need to supply user password and some other (trivial) information. Then we will set its primary user group as <i>www-data</i>. This is required for nginx to be able to parse files to serve them. To do that, run: <code class="code-block">usermod -g www-data developer</code>
         </p>
         <p>
-          To verify that you have successfully run these commands, do this: <code>id developer</code>. Example of successful outcome: <i>uid=1001(developer) gid=33(www-data) groups=33(www-data)</i>. Disregard numeric (id) values as they can vary from system to system. Instead look at the values in the brackets. Bracket value of uid shows username and bracket value of gid shows name of the primary grould. The first value should be <code>developer</code> and the second value should <i>www-data</i>.
+          To verify that you have successfully run these commands, do this: <code class="code-block">id developer</code> Example of successful outcome: <i>uid=1001(developer) gid=33(www-data) groups=33(www-data)</i>. Disregard numeric (id) values as they can vary from system to system. Instead look at the values in the brackets. Bracket value of uid shows username and bracket value of gid shows name of the primary grould. The first value should be <code>developer</code> and the second value should <i>www-data</i>.
         </p>
         <p>
           Now repeat steps for generating SSH keys for user <i>developer</i> from the <a href="#ssh-keys" target="_blank">Keys (opens new tab)</a> sub-section.
@@ -225,9 +227,9 @@
         <div class="callout warning">
           <p class="h5">Troubleshooting tips for beginners</p>
           <ul>
-            <li>If you made a typo, you can delete user: <code>deluser --remove-home user</code></li>
-            <li>Confirm user deletion: <code>getent passwd user</code></li>
-            <li>Confirm primary group deletion: <code>getent group user</code></li>
+            <li>If you made a typo, you can delete user: <code class="code-block">deluser --remove-home user</code></li>
+            <li>Confirm user deletion: <code class="code-block">getent passwd user</code></li>
+            <li>Confirm primary group deletion: <code class="code-block">getent group user</code></li>
             <li>Hint: if entry is deleted, getent will return nothing</li>
           </ul>
         </div>
@@ -249,7 +251,7 @@
           Download scripts from <a href="https://github.com/alexkuc/remote-dev-server-scripts">this repository</a>. The scripts are intended to be used as git sub-modules. Given the long repository name, it is better to clone it into folder such as <i>dev-server</i>.
         </p>
         <p>
-          Prior to running these scripts, make sure they are executable. To do so, run: <code>chmod +x *.sh</code> (inside cloned repository). To start watching for file(s) changes, run: <code>./dev-server/watch.sh</code>. If you want to do a one-off sync with remote, run: <code>./sync.sh</code>.
+          Prior to running these scripts, make sure they are executable. To do so, run (inside cloned directory): <code class="code-block">chmod +x *.sh</code> To start watching for file(s) changes, run: <code class="code-block">./dev-server/watch.sh</code> If you want to do a one-off sync with remote, run: <code class="code-block">./sync.sh</code>
         </p>
         <p>
           These Bash scripts make a number of assumptions described <a href="https://github.com/alexkuc/remote-dev-server-scripts/blob/master/README.md">here</a>. Installation of dependencies should be done on remote by ssh'ing into it.
@@ -260,8 +262,8 @@
             <li>To serve output directory (e.g. <code>dist/</code>) via nginx you would use <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#root">root directive</a></li>
             <li>The specified folder needs to have the following permissions,</li>
             <li>Otherwise you will run into <a href="https://stackoverflow.com/questions/6795350/nginx-403-forbidden-for-all-files">403 permission denied</a> error:</li>
-            <li>Root folder: <code>chown developer:www-data root_folder</code></li>
-            <li>Root folder: <code>chmod 755 root_folder</code></li>
+            <li>Root folder: <code class="code-block">chown developer:www-data root_folder</code></li>
+            <li>Root folder: <code class="code-block">chmod 755 root_folder</code></li>
           </ul>
         </div>
         <hr>
