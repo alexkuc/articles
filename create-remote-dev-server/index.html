@@ -240,63 +240,19 @@
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
-          In order to synchronize source code from local to remote, a custom Bash script is used which uses <a href="https://linux.die.net/man/1/rsync">rsync</a> and <a href="https://linux.die.net/man/1/inotifywait">inotifywait</a>. To make this setup Windows-compatible, you would need to use <a href="https://www.cygwin.com/">Cygwin</a> (or similar) and <a href="https://linux.die.net/man/1/rsync">Windows port of inotifywait</a>.
+          In order to synchronize source code from local to remote, a custom Bash script is used which uses <a href="https://linux.die.net/man/1/rsync">rsync</a> and <a href="https://github.com/emcrisostomo/fswatch">fswatch</a>. To make this setup Windows-compatible, you would need to use <a href="https://www.cygwin.com/">Cygwin</a> (or similar).
         </p>
         <p>
-          The idea behind the script is simple. Watch the source code folder (typically repository) for changes. When the local change is detected, send modified files to remote. The biggest advantage of this approach is its simplicity - modify a file locally and the same modification becomes available on remote.
+          The idea behind the script is simple. Watch the source code folder (typically repository) for changes. When the local change is detected, send modified files to remote.
         </p>
         <p>
-          <a data-toggle="sync-script">
-            Show sample rsync script
-          </a>
-          <div class="hide" id="sync-script" data-toggler="hide">
-            <div class="callout">
-              <p class="h5">sync.sh</p>
-              <code class="code-block">
-#!/bin/bash
-
-rsync -az --progress --delete \
-    --exclude=.git/ \
-    --exclude=node_modules/ \
-    --exclude=dist/ \
-./ dev:/repo
-              </code>
-            </div>
-            <div class="callout">
-              <p class="h5">watch.sh</p>
-              <code class="code-block">
-#!/bin/bash
-
-# save credentials
-# (using AddKeysToAgent in ssh config)
-ssh dev ls > /dev/null 2>&1
-
-inotifywait -rm --exclude '\.git' './' |
-while read -r path event file; do
-    echo ""
-    echo "===== Start ====="
-    echo ""
-    echo "File: $file"
-    echo ""
-    echo "Path: $path"
-    echo ""
-    echo "Event: $event"
-    echo ""
-    echo "Rsync: "
-    echo ""
-    ./dev-server/sync.sh
-    echo ""
-    echo "===== End ====="
-done
-              </code>
-            </div>
-          </div>
+          Download scripts from <a href="https://github.com/alexkuc/remote-dev-server-scripts">this repository</a>. The scripts are intended to be used as git sub-modules. Given the long repository name, it is better to clone it into folder such as <i>dev-server</i>.
         </p>
         <p>
-          Place both of these scripts in the root of your repository. Prior to running these scripts, make sure they are executable. To do so, run: <code>chmod +x sync.sh watch.sh</code>. To start watching for file(s) changes, run: <code>./watc.sh</code>. If you want to do a one-off sync with remote, run: <code>./sync.sh</code>.
+          Prior to running these scripts, make sure they are executable. To do so, run: <code>chmod +x *.sh</code> (inside cloned repository). To start watching for file(s) changes, run: <code>./dev-server/watch.sh</code>. If you want to do a one-off sync with remote, run: <code>./sync.sh</code>.
         </p>
         <p>
-          These Bash scripts assume that output is compiled into <code>dist/</code>. Also, <code>node_modules/</code> are excluded to avoid network overhead for dependencies. For best performance, install dependencies on remote by ssh'ing into it. Finally, <code>.git/</code> is excluded as it can grow very large over time.
+          These Bash scripts make a number of assumptions described <a href="https://github.com/alexkuc/remote-dev-server-scripts/blob/master/README.md">here</a>. Installation of dependencies should be done on remote by ssh'ing into it.
         </p>
         <div class="callout warning">
           <h2 class="h5">Nginx and Permissions</h2>
