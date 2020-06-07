@@ -126,6 +126,24 @@
         <p>
           Now we will generate SSH key pair (public and private) on your local machine and add it to your droplet to allow password-less connection. This <a href="https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/" target="_blank">tutorial from DigitalOcean</a> contains step-by-step explanations how to do it. That tutorial covers Windows, Linux and OSX operating systems.
         </p>
+        <p>
+          It can be very cumbersome typing the entire SSH connection string every time so you can create a "shortcut". To do so, you need to create a new entry in your SSH config which is typically located at: <code class="code-block">~/.ssh/config</code>
+        </p>
+        <p>
+          See <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client" target="_blank">this tutorial from DigitalOcean</a> and <a href="https://www.ssh.com/ssh/config/" target="_blank">OpenSSH manpage</a> for more details. Bear in mind that the sample config below contains <code>AddKeysToAgent</code> which is <em>Mac-specific setting</em>.
+        </p>
+        <p>
+          <a data-toggle="ssh-profile">Show sample SSH profile</a>
+        </p>
+        <div id="ssh-profile" class="hide" data-toggler="hide">
+          <code class="code-block">Host dev
+  HostName 128.199.37.47
+  User developer
+  PreferredAuthentications publickey
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/developer</code>
+        </div>
         <div class="callout primary">
           <p class="h5">Key points if you are a beginner</p>
           <ul>
@@ -135,8 +153,6 @@
             <li>Typically, you store SSH keys in <code>~/.ssh/</code> so navigate to that directory first</li>
             <li>Before doing SSH connection to droplet, you need to add it to <code>ssh-agent</code></li>
             <li>To add SSH key, run <code class="code-block">ssh-add private_key</code></li>
-            <li>Alternatively, you can create SSH profile to automatically add SSH key</li>
-            <li>See <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client" target="_blank">this tutorial from DigitalOcean</a> and <a href="https://www.ssh.com/ssh/config/" target="_blank">OpenSSH manpage</a> for more details</li>
           </ul>
         </div>
         <div class="callout primary">
