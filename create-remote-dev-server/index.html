@@ -82,7 +82,10 @@
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
-          Sign-up on DigitalOcean and create a droplet. When choosing between a password-based authentication and SSH, choose a password-based as we will configure SSH keys later in this article. As mentioned in the beginning, choose Ubuntu distro version 20.04 LTS (why Docker was not chosen is explained below). Choose Droplet specs according to your workload needs. Other settings can be left with their default value. Choose a data center close to your <em>physical</em> location otherwise you might <a href="https://serverfault.com/questions/35453/what-can-cause-slow-ssh-session" target="_blank">encounter poor SSH performance</a>.
+          Sign-up on DigitalOcean and create a droplet. When choosing between a password-based authentication and SSH, choose a password-based as we will configure SSH keys later in this article. If you choose to use the SSH key, you would need to manually set root password otherwise you would require <a href="https://www.digitalocean.com/docs/droplets/resources/console/">a root password reset</a>.
+        </p>
+        <p>
+          As mentioned in the beginning, choose Ubuntu distro version 20.04 LTS (why Docker was not chosen is explained below). Choose Droplet specs according to your workload needs. Other settings can be left with their default value. Choose a data center close to your <em>physical</em> location otherwise you might <a href="https://serverfault.com/questions/35453/what-can-cause-slow-ssh-session" target="_blank">encounter poor SSH performance</a>.
         </p>
         <div class="callout warning">
           By default, your Ubuntu droplet starts with a root user. It is used to install and configure the OS. Afterward, a non-root user is configured to run operations as a non-root user (explained below). <strong>It is a very bad practice to use the root user as an everyday user in your development server</strong>.
