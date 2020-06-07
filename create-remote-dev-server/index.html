@@ -166,7 +166,7 @@
             <li>The former (sshd_config) relates to <i>server</i> configuration</li>
             <li>The latter (ssh_config) relates to <i>client</i> configuration</li>
             <li>Server <i>accepts</i> connections while client <i>initiates</i> connections</li>
-            <li>Disable your root SSH connection: <code class="code-block">PermitRootLogin no</code></li>
+            <li>Disable your root SSH connection (better security): <code class="code-block">PermitRootLogin no</code></li>
           </ul>
         </div>
         <div class="callout warning">
@@ -180,7 +180,7 @@
             <li>Directory should be owned by the current user: <code class="code-block">chown -R $USER:$USER ~/.ssh/</code></li>
             <li>Directory should have permissions 700 <code class="code-block">chmod 700 ~/.ssh</code></li>
             <li>File <code>authorized_keys</code> (droplet) should have permissions 600: <code class="code-block">chmod 600 ~/.ssh/authorized_keys</code></li>
-            <li>Make sure you have this line in <i>sshd_config</i>: <code class="code-block">PubkeyAuthentication yes</code></li>
+            <li>Make sure you have this line in <i>sshd_config</i> (droplet): <code class="code-block">PubkeyAuthentication yes</code></li>
           </ul>
         </div>
         <hr>
