@@ -10,3 +10,12 @@ div#footer {
 code {
   white-space: nowrap;
 }
+
+.code-block {
+  margin-top: 1.5em;
+}
+
+.callout .code-block {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
