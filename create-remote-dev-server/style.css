@@ -19,3 +19,11 @@ code {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
+
+.show-diagram-link::before {
+  content: "Show ";
+}
+
+.hide-diagram-link::before {
+  content: "Hide ";
+}
