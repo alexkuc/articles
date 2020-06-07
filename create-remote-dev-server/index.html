@@ -308,7 +308,7 @@
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
-          In order to synchronize source code from local to remote, a custom Bash script is used which uses <a href="https://linux.die.net/man/1/rsync" target="_blank">rsync</a> and <a href="https://github.com/emcrisostomo/fswatch" target="_blank">fswatch</a>. To make this setup Windows-compatible, you would need to use <a href="https://www.cygwin.com/" target="_blank">Cygwin</a> (or similar).
+          In order to synchronize source code from local to remote, a custom Bash script is used which uses <a href="https://linux.die.net/man/1/rsync" target="_blank">rsync</a> and <a href="https://github.com/emcrisostomo/fswatch" target="_blank">fswatch</a>. To make this setup Windows-compatible, you would need to use <a href="https://www.cygwin.com/" target="_blank">Cygwin</a> (or <a href="https://stackoverflow.com/questions/10385424/good-alternatives-to-cygwin-cygwin-doesnt-support-natively-support-win32-app" target="_blank">similar</a>).
         </p>
         <p>
           The idea behind the script is simple. Watch the source code folder (typically repository) for changes. When the local change is detected, send modified files to remote.
