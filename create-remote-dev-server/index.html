@@ -54,7 +54,7 @@
           There is nothing new in having data stored in one system and having it processed in another. While conceptually everything is very clear, the implementation details can greatly vary. This article focuses on so-called conventional server where there is no abstract layer between the OS itself and the tools used to process source code.
         </p>
         <p class="hide-for-large">
-          <a href="./high-level-overview.png" target="_blank">Show high level overview (new tab)</a>
+          <a href="./high-level-overview.png" target="_blank">Show high level overview</a>
         </p>
         <p class="show-for-large">
           <a data-toggle="diagram">
@@ -150,6 +150,7 @@
             <li>The former (sshd_config) relates to <i>server</i> configuration</li>
             <li>The latter (ssh_config) relates to <i>client</i> configuration</li>
             <li>Server <i>accepts</i> connections while client <i>initiates</i> connections</li>
+            <li>Disable your root SSH connection: <code class="code-block">PermitRootLogin no</code></li>
           </ul>
         </div>
         <div class="callout warning">
@@ -158,11 +159,12 @@
             <li>Run <code class="code-block">ssh-add -l</code> to check if your private SSH key was added or not</li>
             <li>Troubleshoot SSH connection locally: <code class="code-block">ssh -v user@host</code></li>
             <li>Troubleshoot SSH connection remotely:</li>
-            <li>To troubleshoot SSH from remote end, add the following line to SSH config in <em>droplet</em>: <code>LogLevel DEBUG</code></li>
+            <li>To troubleshoot SSH from remote end, add the following line to SSH config in <em>droplet</em>: <code class="code-block">LogLevel DEBUG</code></li>
             <li>Make sure you set correct permissions otherwise authentication will not work:</li>
             <li>Directory should be owned by the current user: <code class="code-block">chown -R $USER:$USER ~/.ssh/</code></li>
             <li>Directory should have permissions 700 <code class="code-block">chmod 700 ~/.ssh</code></li>
             <li>File <code>authorized_keys</code> (droplet) should have permissions 600: <code class="code-block">chmod 600 ~/.ssh/authorized_keys</code></li>
+            <li>Make sure you have this line in <i>sshd_config</i>: <code class="code-block">PubkeyAuthentication yes</code></li>
           </ul>
         </div>
         <hr>
@@ -254,7 +256,7 @@
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
-          DigitalOcean image of Ubuntu has <a href="https://help.ubuntu.com/community/UFW">UFW</a> disabled by default. Despite your remote development server being private, it is still important to maintain a certain level of security. Having a firewall is one of those measurements. Before enabling ufw, you need to permit SSH (and other) ports otherwise your SSH connection will drop. To allow SSH connections, run: <code class="code-block">ufw allow OpenSSH</code> If you use non-standard SSH port (i.e. not 22), follow <a href="https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands">this tutorial from DigitalOcean</a>. Since we will also require nginx connection, permit that as well by running: <code class="code-block">ufw allow "Nginx Full"</code> As you have noticed, if app name has a space in it, you need to enclose it in quotes. To view list of existing application profiles, run: <code class="code-block">ufw app list</code> Note that these are pre-configured profiles which assume default ports. If you run non-standard ports, refer to the DigitalOcean tutorial linked previously. To enable ufw, simply run: <code class="code-block">ufw enable</code> In case something goes wrong, you always have <abbr title="Out-of-band management">OOBM</abbr> access via console in DigitalOcean.
+          DigitalOcean image of Ubuntu has <a href="https://help.ubuntu.com/community/UFW" target="_blank">UFW</a> disabled by default. Despite your remote development server being private, it is still important to maintain a certain level of security. Having a firewall is one of those measurements. Before enabling ufw, you need to permit SSH (and other) ports otherwise your SSH connection will drop. To allow SSH connections, run: <code class="code-block">ufw allow OpenSSH</code> If you use non-standard SSH port (i.e. not 22), follow <a href="https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands" target="_blank">this tutorial from DigitalOcean</a>. Since we will also require nginx connection, permit that as well by running: <code class="code-block">ufw allow "Nginx Full"</code> As you have noticed, if app name has a space in it, you need to enclose it in quotes. To view list of existing application profiles, run: <code class="code-block">ufw app list</code> Note that these are pre-configured profiles which assume default ports. If you run non-standard ports, refer to the DigitalOcean tutorial linked previously. To enable ufw, simply run: <code class="code-block">ufw enable</code> In case something goes wrong, you always have <abbr title="Out-of-band management">OOBM</abbr> access via console in DigitalOcean.
         </p>
         <div class="callout warning">
           <p class="h5">Troubleshooting tips for beginners</p>
@@ -277,7 +279,7 @@
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
-          We will create a non-root user which we will use to sync source code from our local machine to remote. We will also use the same user to execute any developer tools. As mentioned in the beginning, using root for every day work is a very bad habit (<a href="https://askubuntu.com/questions/16178/why-is-it-bad-to-log-in-as-root">example explanation</a>).
+          We will create a non-root user which we will use to sync source code from our local machine to remote. We will also use the same user to execute any developer tools. As mentioned in the beginning, using root for every day work is a very bad habit (<a href="https://askubuntu.com/questions/16178/why-is-it-bad-to-log-in-as-root" target="_blank">example explanation</a>).
         </p>
         <p>
           To create a new user, simply run: <code class="code-block">adduser --home /home/developer --shell /bin/bash developer</code> This command will create a new user called <i>developer</i> which home directory at <code>/home/developer</code> and default shell as bash (<code>/bin/bash</code>). Note that this is an interactive command so you will need to supply user password and some other (trivial) information. Then we will set its primary user group as <i>www-data</i>. This is required for nginx to be able to parse files to serve them. To do that, run: <code class="code-block">usermod -g www-data developer</code>
@@ -286,7 +288,7 @@
           To verify that you have successfully run these commands, do this: <code class="code-block">id developer</code> Example of successful outcome: <i>uid=1001(developer) gid=33(www-data) groups=33(www-data)</i>. Disregard numeric (id) values as they can vary from system to system. Instead look at the values in the brackets. Bracket value of uid shows username and bracket value of gid shows name of the primary grould. The first value should be <code>developer</code> and the second value should <i>www-data</i>.
         </p>
         <p>
-          Now repeat steps for generating SSH keys for user <i>developer</i> from the <a href="#ssh-keys" target="_blank">Keys (opens new tab)</a> sub-section.
+          Now repeat steps for generating SSH keys for user <i>developer</i> from the <a href="#ssh-keys" target="_blank">Keys</a> sub-section.
         </p>
         <div class="callout warning">
           <p class="h5">Troubleshooting tips for beginners</p>
@@ -306,26 +308,26 @@
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
-          In order to synchronize source code from local to remote, a custom Bash script is used which uses <a href="https://linux.die.net/man/1/rsync">rsync</a> and <a href="https://github.com/emcrisostomo/fswatch">fswatch</a>. To make this setup Windows-compatible, you would need to use <a href="https://www.cygwin.com/">Cygwin</a> (or similar).
+          In order to synchronize source code from local to remote, a custom Bash script is used which uses <a href="https://linux.die.net/man/1/rsync" target="_blank">rsync</a> and <a href="https://github.com/emcrisostomo/fswatch" target="_blank">fswatch</a>. To make this setup Windows-compatible, you would need to use <a href="https://www.cygwin.com/" target="_blank">Cygwin</a> (or similar).
         </p>
         <p>
           The idea behind the script is simple. Watch the source code folder (typically repository) for changes. When the local change is detected, send modified files to remote.
         </p>
         <p>
-          Download scripts from <a href="https://github.com/alexkuc/remote-dev-server-scripts">this repository</a>. The scripts are intended to be used as git sub-modules. Given the long repository name, it is better to clone it into folder such as <i>dev-server</i>.
+          Download scripts from <a href="https://github.com/alexkuc/remote-dev-server-scripts" target="_blank">this repository</a>. The scripts are intended to be used as git sub-modules. Given the long repository name, it is better to clone it into folder such as <i>dev-server</i>.
         </p>
         <p>
           Prior to running these scripts, make sure they are executable. To do so, run (inside cloned directory): <code class="code-block">chmod +x *.sh</code> To start watching for file(s) changes, run: <code class="code-block">./dev-server/watch.sh</code> If you want to do a one-off sync with remote, run: <code class="code-block">./sync.sh</code>
         </p>
         <p>
-          These Bash scripts make a number of assumptions described <a href="https://github.com/alexkuc/remote-dev-server-scripts/blob/master/README.md">here</a>. Installation of dependencies should be done on remote by ssh'ing into it.
+          These Bash scripts make a number of assumptions described <a href="https://github.com/alexkuc/remote-dev-server-scripts/blob/master/README.md" target="_blank">here</a>. Installation of dependencies should be done on remote by ssh'ing into it.
         </p>
         <div class="callout warning">
           <h2 class="h5">Nginx and Permissions</h2>
           <ul>
-            <li>To serve output directory (e.g. <code>dist/</code>) via nginx you would use <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#root">root directive</a></li>
+            <li>To serve output directory (e.g. <code>dist/</code>) via nginx you would use <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#root" target="_blank">root directive</a></li>
             <li>The specified folder needs to have the following permissions,</li>
-            <li>Otherwise you will run into <a href="https://stackoverflow.com/questions/6795350/nginx-403-forbidden-for-all-files">403 permission denied</a> error:</li>
+            <li>Otherwise you will run into <a href="https://stackoverflow.com/questions/6795350/nginx-403-forbidden-for-all-files" target="_blank">403 permission denied</a> error:</li>
             <li>Root folder: <code class="code-block">chown developer:www-data root_folder</code></li>
             <li>Root folder: <code class="code-block">chmod 755 root_folder</code></li>
           </ul>
