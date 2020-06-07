@@ -226,6 +226,25 @@
             <li><a href="https://unix.stackexchange.com/questions/7769/should-i-include-a-trailing-slash-in-a-symlink-to-a-directory" target="_blank">Should I include a trailing slash / in a symlink to a directory?</a></li>
           </ul>
         </div>
+        <div class="callout warning">
+          <h2 class="h5">Nginx and Permissions</h2>
+          <ul>
+            <li>To serve output directory (e.g. <code>dist/</code>) via nginx you would use <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#root" target="_blank">root directive</a></li>
+            <li>The specified folder needs to have the following permissions,</li>
+            <li>Otherwise you will run into <a href="https://stackoverflow.com/questions/6795350/nginx-403-forbidden-for-all-files" target="_blank">403 permission denied</a> error:</li>
+            <li>Root folder: <code class="code-block">chown developer:www-data root_folder</code></li>
+            <li>Root folder: <code class="code-block">chmod 755 root_folder</code></li>
+          </ul>
+        </div>
+        <div class="callout warning">
+          <p class="h5">Troubleshooting steps for beginners</p>
+          <ul>
+            <li>If you run into various <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status" target="_blank">HTTP errors</a>, enabling debugging for more info:</li>
+            <li>Set (or uncomment) the following line in your site config: <code class="code-block">error_log /var/log/nginx/debug.log debug</code></li>
+            <li>If this logging level is too verbose, you can change it to <a href="http://nginx.org/en/docs/ngx_core_module.html#error_log" target="_blank">other values</a></li>
+            <li>When specifying path for <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#root" target="_blank">root directive</a>, you need to use absolute path</li>
+          </ul>
+        </div>
         <hr>
       </div>
       <div id="ufw" class="cell small-10 text-center">
