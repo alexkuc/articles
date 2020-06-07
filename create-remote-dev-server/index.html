@@ -187,6 +187,32 @@
         <p>
           Canonical published an excellent step-by-step <a href="https://ubuntu.com/tutorials/install-and-configure-nginx#1-overview" target="_blank">tutorial</a> on installing nginx in Ubuntu.
         </p>
+        <p>
+          <a data-toggle="nginx-config">Show sample nginx site config</a>
+        </p>
+        <div id="nginx-config" class="hide" data-toggler="hide">
+          <code class="code-block">server {
+  listen 80;
+  listen [::]:80;
+
+  root /home/developer/repo/dist;
+
+  location / {
+    index index.html;
+  }
+
+  #error_log /var/log/nginx/debug.log debug;
+
+  server_name my-domain.com www.my-domain.com;
+}</code>
+        </div>
+        <p>
+          If you do not have a registered domain, you can still use domain name but with certain limitations. You need to modify your <i>hosts</i> file to point your domain name to your droplet's ip address. For example: <code class="code-block">1.2.3.4    my-domain.com
+1.2.3.4    www.my-domain.com</code>
+        </p>
+        <p>
+          The limit lies in the fact that others will not be able to use the same domain name unless they also modify their <i>hosts</i> file. For exact location of the <i>hosts</i> file, please consult <a href="https://en.wikipedia.org/wiki/Hosts_(file)#Location_in_the_file_system" target="_blank">this document</a> as its location varies per operating system.
+        </p>
         <div class="callout primary">
           <p class="h5">Quick information for beginners:</p>
           <ul>
