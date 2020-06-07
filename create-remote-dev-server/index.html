@@ -88,7 +88,12 @@
           As mentioned in the beginning, choose Ubuntu distro version 20.04 LTS (why Docker was not chosen is explained below). Choose Droplet specs according to your workload needs. Other settings can be left with their default value. Choose a data center close to your <em>physical</em> location otherwise you might <a href="https://serverfault.com/questions/35453/what-can-cause-slow-ssh-session" target="_blank">encounter poor SSH performance</a>.
         </p>
         <div class="callout warning">
-          By default, your Ubuntu droplet starts with a root user. It is used to install and configure the OS. Afterward, a non-root user is configured to run operations as a non-root user (explained below). <strong>It is a very bad practice to use the root user as an everyday user in your development server</strong>.
+          <p>
+            By default, your Ubuntu droplet starts with a root user. You may use it to configure the OS initially. Alternatively, you can grant <code>sudo</code> to your non-root user to the complete configuration.
+          </p>
+          <p>
+            Afterward, a non-root user should be used for development operations. <strong>It is a very bad practice to use a root user as an everyday user in your development server</strong>.
+          </p>
         </div>
         <div class="callout primary">
           <p>Update your Ubuntu installation after it is up by running:</p>
@@ -105,6 +110,35 @@
         <p>
           Initially, I was planning on using Docker for this project. However, I ran into one specific technical detail: Docker containers exit on non-zero error. In the scope of this project, this presented a difficulty in keeping Docker containers running as, for example, a linting tool would exit with a non-zero exit code if there was an issue. While it is very possible to find a solution and keep Docker containers running, I had no hard requirement to use docker. Hence I have decided to create a "conventional" or "traditional" development server.
         </p>
+        <hr>
+      </div>
+      <div id="non-root-user" class="cell small-10 text-center">
+        <h2>
+          <a href="#non-root-user" data-smooth-scroll>Non-Root User</a>
+        </h2>
+      </div>
+      <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
+        <p>
+          We will create a non-root user which we will use to sync source code from our local machine to remote. We will also use the same user to execute any developer tools. As mentioned in the beginning, using root for everyday work is a very bad habit (<a href="https://askubuntu.com/questions/16178/why-is-it-bad-to-log-in-as-root" target="_blank">example explanation</a>).
+        </p>
+        <p>
+          To create a new user, simply run: <code class="code-block">adduser --home /home/developer --shell /bin/bash developer</code> This command will create a new user called <i>developer</i> which home directory at <code>/home/developer</code> and default shell as bash (<code>/bin/bash</code>). Note that this is an interactive command so you will need to supply user password and some other (trivial) information. Then we will set its primary user group as <i>www-data</i>. This is required for Nginx to be able to parse files to serve them. To do that, run: <code class="code-block">usermod -g www-data developer</code>
+        </p>
+        <p>
+          To verify that you have successfully run these commands, do this: <code class="code-block">id developer</code> Example of successful outcome: <i>uid=1001(developer) gid=33(www-data) groups=33(www-data)</i>. Disregard numeric (id) values as they can vary from system to system. Instead, look at the values in the brackets. Bracket value of uid shows the username and the bracket value of gid shows the name of the primary group. The first value should be <i>developer</i> and the second value should <i>www-data</i>.
+        </p>
+        <p>
+          Now repeat steps for generating SSH keys for user <i>developer</i> from the <a href="#ssh-keys" target="_blank">Keys</a> sub-section.
+        </p>
+        <div class="callout warning">
+          <p class="h5">Troubleshooting tips for beginners</p>
+          <ul>
+            <li>If you made a typo, you can delete a user: <code class="code-block">deluser --remove-home user</code></li>
+            <li>Confirm the user deletion: <code class="code-block">getent passwd user</code></li>
+            <li>Confirm the primary group deletion: <code class="code-block">getent group user</code></li>
+            <li>Hint: if the entry is deleted, <code>getent</code> will return nothing</li>
+          </ul>
+        </div>
         <hr>
       </div>
       <div id="ssh" class="cell small-10 text-center">
@@ -301,35 +335,6 @@
         </div>
         <div class="callout warning">
           Generally speaking, whenever dealing with firewalls, routing tables, etc., it is <strong>extremely important to verify twice or thrice that your changes will not break your current connection</strong>. Ideally, you want <a href="https://en.wikipedia.org/wiki/Out-of-band_management" target="_blank">OOBM</a> in place in case your primary remote connection stops working. DigitalOcean provides that in the form of the console.
-        </div>
-        <hr>
-      </div>
-      <div id="non-root-user" class="cell small-10 text-center">
-        <h2>
-          <a href="#non-root-user" data-smooth-scroll>Non-Root User</a>
-        </h2>
-      </div>
-      <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
-        <p>
-          We will create a non-root user which we will use to sync source code from our local machine to remote. We will also use the same user to execute any developer tools. As mentioned in the beginning, using root for everyday work is a very bad habit (<a href="https://askubuntu.com/questions/16178/why-is-it-bad-to-log-in-as-root" target="_blank">example explanation</a>).
-        </p>
-        <p>
-          To create a new user, simply run: <code class="code-block">adduser --home /home/developer --shell /bin/bash developer</code> This command will create a new user called <i>developer</i> which home directory at <code>/home/developer</code> and default shell as bash (<code>/bin/bash</code>). Note that this is an interactive command so you will need to supply user password and some other (trivial) information. Then we will set its primary user group as <i>www-data</i>. This is required for Nginx to be able to parse files to serve them. To do that, run: <code class="code-block">usermod -g www-data developer</code>
-        </p>
-        <p>
-          To verify that you have successfully run these commands, do this: <code class="code-block">id developer</code> Example of successful outcome: <i>uid=1001(developer) gid=33(www-data) groups=33(www-data)</i>. Disregard numeric (id) values as they can vary from system to system. Instead, look at the values in the brackets. Bracket value of uid shows the username and the bracket value of gid shows the name of the primary group. The first value should be <i>developer</i> and the second value should <i>www-data</i>.
-        </p>
-        <p>
-          Now repeat steps for generating SSH keys for user <i>developer</i> from the <a href="#ssh-keys" target="_blank">Keys</a> sub-section.
-        </p>
-        <div class="callout warning">
-          <p class="h5">Troubleshooting tips for beginners</p>
-          <ul>
-            <li>If you made a typo, you can delete a user: <code class="code-block">deluser --remove-home user</code></li>
-            <li>Confirm the user deletion: <code class="code-block">getent passwd user</code></li>
-            <li>Confirm the primary group deletion: <code class="code-block">getent group user</code></li>
-            <li>Hint: if the entry is deleted, <code>getent</code> will return nothing</li>
-          </ul>
         </div>
         <hr>
       </div>
