@@ -130,6 +130,12 @@
         <p>
           Now repeat steps for generating SSH keys for user <i>developer</i> from the <a href="#ssh-keys" target="_blank">Keys</a> sub-section.
         </p>
+        <p>
+          If you do not plan on using the <i>root</i> user, you need to add your non-root user to the <i>sudo</i> group to run elevated commands. DigitalOcean published an <a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-new-sudo-enabled-user-on-ubuntu-18-04-quickstart">excellent article</a> on how to do this but here is a quick summary. First, run the following code to add user <i>developer</i> to the <i>sudo</i> group: <code class="code-block">usermod -aG sudo developer</code>
+        </p>
+        <p>
+          To verify that your non-root user was successfully added to the sudo group, run: <code>sudo echo 1</code>. If you do not wish to keep trying <code>sudo</code>, you can "switch" into <i>sudo</i> by running <code>su - developer</code>. More information on that is <a href="https://unix.stackexchange.com/questions/35338/su-vs-sudo-s-vs-sudo-i-vs-sudo-bash/35342">available here</a>.
+        </p>
         <div class="callout warning">
           <p class="h5">Troubleshooting tips for beginners</p>
           <ul>
