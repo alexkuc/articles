@@ -82,14 +82,14 @@
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
-          Sign-up on DigitalOcean and create a droplet. When choosing between a password-based authentication and SSH, choose a password-based as we will configure SSH keys later in this article. If you choose to use the SSH key, you would need to manually set root password otherwise you would require <a href="https://www.digitalocean.com/docs/droplets/resources/console/">a root password reset</a>.
+          Sign-up on DigitalOcean and create a droplet. Choose a password-based authentication as we will configure SSH keys later in this article. If you choose to use the SSH key, you would need to manually set root password otherwise you would require <a href="https://www.digitalocean.com/docs/droplets/resources/console/">a root password reset</a>.
         </p>
         <p>
-          As mentioned in the beginning, choose Ubuntu distro version 20.04 LTS (why Docker was not chosen is explained below). Choose Droplet specs according to your workload needs. Other settings can be left with their default value. Choose a data center close to your <em>physical</em> location otherwise you might <a href="https://serverfault.com/questions/35453/what-can-cause-slow-ssh-session" target="_blank">encounter poor SSH performance</a>.
+          As mentioned in the beginning, choose Ubuntu distro version 20.04 LTS (why Docker was not chosen is explained below). Choose droplet specs according to your workload needs. Other settings can be left with their default value. Choose a data center close to your <em>physical</em> location otherwise you might <a href="https://serverfault.com/questions/35453/what-can-cause-slow-ssh-session" target="_blank">encounter poor SSH performance</a>.
         </p>
         <div class="callout warning">
           <p>
-            By default, your Ubuntu droplet starts with a root user. You may use it to configure the OS initially. Alternatively, you can grant <code>sudo</code> to your non-root user to the complete configuration.
+            By default, your Ubuntu droplet starts with a root user. You may use it to configure the OS initially. Alternatively, you can grant <code>sudo</code> to your non-root user to complete the configuration.
           </p>
           <p>
             Afterward, a non-root user should be used for development operations. <strong>It is a very bad practice to use a root user as an everyday user in your development server</strong>.
@@ -97,7 +97,7 @@
         </div>
         <div class="callout primary">
           <p>Update your Ubuntu installation after it is up by running:</p>
-          <code class="code-block">apt-get update && apt-get upgrade</code>
+          <code class="code-block">apt-get update && apt-get -y upgrade</code>
         </div>
         <hr>
       </div>
