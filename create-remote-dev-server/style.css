@@ -31,3 +31,7 @@ code {
 .hide-bullet {
   list-style:none;
 }
+
+.addthis_inline_share_toolbox {
+  text-align: center;
+}
