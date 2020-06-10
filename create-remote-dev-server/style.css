@@ -27,3 +27,7 @@ code {
 .hide-diagram-link::before {
   content: "Hide ";
 }
+
+.hide-bullet {
+  list-style:none;
+}

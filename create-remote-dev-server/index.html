@@ -213,11 +213,13 @@ groupdel username</code></li>
           <ul>
             <li><em>The information below relates to droplet</em></li>
             <li>Quick file reference:</li>
-            <ul>
-              <li>Config files location: <code>/etc/ssh/</code></li>
-              <li>Primary config file*: <code>sshd_config</code></li>
-              <li>Auto-load configs from: <code>/sshd_config.d/</code></li>
-            </ul>
+            <li class="hide-bullet">
+              <ul>
+                <li>Config files location: <code>/etc/ssh/</code></li>
+                <li>Primary config file*: <code>sshd_config</code></li>
+                <li>Auto-load configs from: <code>/sshd_config.d/</code></li>
+              </ul>
+            </li>
             <li>*Do not confuse sshd_config with ssh_config:</li>
             <li><code>sshd_config</code> is for connecting to this host (<em>this droplet</em>)</li>
             <li><code>ssh_config</code> is for connecting to other hosts <em>from droplet</em></li>
@@ -243,17 +245,21 @@ groupdel username</code></li>
             <li>Run to check if your private SSH key was added or not: <code class="code-block">ssh-add -l</code> </li>
             <li>Troubleshoot SSH connection locally: <code class="code-block">ssh -v user@host</code></li>
             <li>Troubleshoot SSH connection remotely:</li>
-            <ul>
-              <li>add (or uncomment) the following line to <code>sshd_config</code> (droplet): <code class="code-block">LogLevel DEBUG</code></li>
-              <li>log path: <code>/etc/var/auth.log</code></li>
-              <li>you may need to restart sshd service: <code class="code-block">service ssh restart</code></li>
-            </ul>
+            <li class="hide-bullet">
+              <ul>
+                <li>add (or uncomment) the following line to <code>sshd_config</code> (droplet): <code class="code-block">LogLevel DEBUG</code></li>
+                <li>log path: <code>/etc/var/auth.log</code></li>
+                <li>you may need to restart sshd service: <code class="code-block">service ssh restart</code></li>
+              </ul>
+            </li>
             <li>Make sure you set correct permissions:</li>
-            <ul>
-              <li>the directory should be owned by the current user (local machine): <code class="code-block">chown -R $USER:$USER ~/.ssh/</code></li>
-              <li>the directory should have permissions 700 (local machine): <code class="code-block">chmod 700 ~/.ssh</code></li>
-              <li>file <code>authorized_keys</code> (droplet) should have permissions 600: <code class="code-block">chmod 600 ~/.ssh/authorized_keys</code></li>
-            </ul>
+            <li class="hide-bullet">
+              <ul>
+                <li>the directory should be owned by the current user (local machine): <code class="code-block">chown -R $USER:$USER ~/.ssh/</code></li>
+                <li>the directory should have permissions 700 (local machine): <code class="code-block">chmod 700 ~/.ssh</code></li>
+                <li>file <code>authorized_keys</code> (droplet) should have permissions 600: <code class="code-block">chmod 600 ~/.ssh/authorized_keys</code></li>
+              </ul>
+            </li>
           </ul>
         </div>
         <hr>
@@ -335,29 +341,35 @@ groupdel username</code></li>
           <p class="h5">Quick information for beginners</p>
           <ul>
             <li>Quick commands reference:</li>
-            <ul>
-              <li>Restart: <code class="code-block">services nginx restart</code></li>
-              <li>Reload: <code class="code-block">services nginx reload</code></li>
-              <li>Test config: <code class="code-block">nginx -t</code></li>
-            </ul>
+            <li class="hide-bullet">
+              <ul>
+                <li>Restart: <code class="code-block">services nginx restart</code></li>
+                <li>Reload: <code class="code-block">services nginx reload</code></li>
+                <li>Test config: <code class="code-block">nginx -t</code></li>
+              </ul>
+            </li>
             <li>Quick file reference:</li>
-            <ul>
-              <li>Config files location: <code>/etc/nginx</code></li>
-              <li>Primary config file: <code>nginx.conf</code></li>
-              <li>Auto-load configs from: <code>conf.d/</code></li>
-              <li>Add website configs to: <code>sites-available/</code></li>
-              <li>Auto-load websites from: <code>sites-enabled/</code></li>
-            </ul>
+            <li class="hide-bullet">
+              <ul>
+                <li>Config files location: <code>/etc/nginx</code></li>
+                <li>Primary config file: <code>nginx.conf</code></li>
+                <li>Auto-load configs from: <code>conf.d/</code></li>
+                <li>Add website configs to: <code>sites-available/</code></li>
+                <li>Auto-load websites from: <code>sites-enabled/</code></li>
+              </ul>
+            </li>
           </ul>
         </div>
         <div id="nginx-permissions" class="callout warning">
           <h2 class="h5">Nginx and Permissions</h2>
           <ul>
             <li>Web content directory (<a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#root" target="_blank">root directive</a>) needs to have:</li>
-            <ul>
-              <li>owner: <code class="code-block">chown developer:www-data root_folder</code></li>
-              <li>permissions: <code class="code-block">chmod 755 root_folder</code></li>
-            </ul>
+            <li class="hide-bullet">
+              <ul>
+                <li>owner: <code class="code-block">chown developer:www-data root_folder</code></li>
+                <li>permissions: <code class="code-block">chmod 755 root_folder</code></li>
+              </ul>
+            </li>
             <li>Otherwise, you will run into <a href="https://stackoverflow.com/questions/6795350/nginx-403-forbidden-for-all-files" target="_blank">403 permission denied</a> error:</li>
           </ul>
         </div>
