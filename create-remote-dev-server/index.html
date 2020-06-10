@@ -119,29 +119,31 @@
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
-          We will create a non-root user which we will use to sync source code from our local machine to remote. We will also use the same user to execute any developer tools. As mentioned in the beginning, using root for everyday work is a very bad habit (<a href="https://askubuntu.com/questions/16178/why-is-it-bad-to-log-in-as-root" target="_blank">example explanation</a>).
+          We will create a non-root user which we will use to sync source code from our local machine to remote. We will also use the same user to execute any developer tools or scripts. As mentioned in the beginning, using root for everyday work is a very bad habit (<a href="https://askubuntu.com/questions/16178/why-is-it-bad-to-log-in-as-root" target="_blank">example explanation</a>).
         </p>
         <p>
-          To create a new user, simply run: <code class="code-block">adduser --home /home/developer --shell /bin/bash developer</code> This command will create a new user called <i>developer</i> which home directory at <code>/home/developer</code> and default shell as bash (<code>/bin/bash</code>). Note that this is an interactive command so you will need to supply user password and some other (trivial) information. Then we will set its primary user group as <i>www-data</i>. This is required for Nginx to be able to parse files to serve them. To do that, run: <code class="code-block">usermod -g www-data developer</code>
+          To create a new user, simply run: <code class="code-block">adduser --home /home/developer --shell /bin/bash developer</code> This command will create a new user called <i>developer</i> which home directory at <code>/home/developer</code> and default shell as bash (<code>/bin/bash</code>). Note that this is an interactive command so you will need to supply user password and some other (trivial) information.
         </p>
         <p>
-          To verify that you have successfully run these commands, do this: <code class="code-block">id developer</code> Example of successful outcome: <i>uid=1001(developer) gid=33(www-data) groups=33(www-data)</i>. Disregard numeric (id) values as they can vary from system to system. Instead, look at the values in the brackets. Bracket value of uid shows the username and the bracket value of gid shows the name of the primary group. The first value should be <i>developer</i> and the second value should <i>www-data</i>.
+          Then we will set its primary user group as <i>www-data</i>. This is required for Nginx to be able to parse files to serve them. To do that, run: <code class="code-block">usermod -g www-data developer</code>
         </p>
         <p>
-          Now repeat steps for generating SSH keys for user <i>developer</i> from the <a href="#ssh-keys" target="_blank">Keys</a> sub-section.
+          To verify that you have successfully run these commands, do this: <code class="code-block">id developer</code> Example of successful outcome: <i>uid=1001(developer) gid=33(www-data) groups=33(www-data)</i>. Bracket value of uid shows the username and the bracket value of gid shows the name of the primary group. The first value should be <i>developer</i> and the second value should <i>www-data</i>.
         </p>
         <p>
           If you do not plan on using the <i>root</i> user, you need to add your non-root user to the <i>sudo</i> group to run elevated commands. DigitalOcean published an <a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-new-sudo-enabled-user-on-ubuntu-18-04-quickstart">excellent article</a> on how to do this but here is a quick summary. First, run the following code to add user <i>developer</i> to the <i>sudo</i> group: <code class="code-block">usermod -aG sudo developer</code>
         </p>
         <p>
-          To verify that your non-root user was successfully added to the sudo group, run: <code>sudo echo 1</code>. If you do not wish to keep trying <code>sudo</code>, you can "switch" into <i>sudo</i> by running <code>su - developer</code>. More information on that is <a href="https://unix.stackexchange.com/questions/35338/su-vs-sudo-s-vs-sudo-i-vs-sudo-bash/35342">available here</a>.
+          To verify that your non-root user was successfully added to the sudo group, run: <code>su - developer</code>. This command "switches" into sudo mode of that user instead of running a specific command via <code>sudo</code>. To exit, simply type <code>exit</code> and you will be back to root user session. More information on that command is <a href="https://unix.stackexchange.com/questions/35338/su-vs-sudo-s-vs-sudo-i-vs-sudo-bash/35342" target="_blank">available here</a>.
         </p>
         <div class="callout warning">
           <p class="h5">Troubleshooting tips for beginners</p>
           <ul>
-            <li>If you made a typo, you can delete a user: <code class="code-block">deluser --remove-home user</code></li>
-            <li>Confirm the user deletion: <code class="code-block">getent passwd user</code></li>
-            <li>Confirm the primary group deletion: <code class="code-block">getent group user</code></li>
+            <li>If you made a typo, you can delete a user: <code class="code-block">deluser --remove-home username
+groupdel username</code></li>
+            <li>Hint: second command is required to remove old primary group</li>
+            <li>Confirm the user deletion: <code class="code-block">getent passwd username</code></li>
+            <li>Confirm the primary group deletion: <code class="code-block">getent group username</code></li>
             <li>Hint: if the entry is deleted, <code>getent</code> will return nothing</li>
           </ul>
         </div>
