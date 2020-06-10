@@ -420,10 +420,7 @@ groupdel username</code></li>
           The idea behind the script is simple. Watch the source code folder (typically repository) for changes. When the local change is detected, send modified files to remote.
         </p>
         <p>
-          Download scripts from <a href="https://github.com/alexkuc/remote-dev-server-scripts" target="_blank">this repository</a>. The scripts are intended to be used as git sub-modules. Given the long repository name, it is better to clone it into a folder such as <i>dev-server</i>.
-        </p>
-        <p>
-          Before running these scripts, make sure they are executable. To do so, run (inside the cloned directory): <code class="code-block">chmod +x *.sh</code>
+          Download scripts from <a href="https://github.com/alexkuc/remote-dev-server-scripts" target="_blank">this repository</a>. The repository is intended to be used as <a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules" target="_blank">git sub-module</a>. Given the long repository name, it is better to clone it into a folder such as <i>dev-server</i>.
         </p>
         <p>
           To start watching for file(s) changes, run: <code class="code-block">./dev-server/watch.sh</code>
@@ -432,7 +429,13 @@ groupdel username</code></li>
           If you want to do one-off sync with remote, run: <code class="code-block">./sync.sh</code>
         </p>
         <p>
-          These Bash scripts make several assumptions described <a href="https://github.com/alexkuc/remote-dev-server-scripts/blob/master/README.md" target="_blank">here</a>. Installation of dependencies should be done on remote by ssh'ing into it. Make sure to set correct permissions for web content folder as described in <a href="#nginx-permissions" data-smooth-scroll>Nginx section</a> (if applies).
+          If you want to copy compiled files from folder such as <code>dist/</code>, run: <code class="code-block">scp dev:repo/dist/index.html .</code>
+        </p>
+        <p>
+          or you can run the following to copy (recursively) the entire folder: <code class="code-block">scp -r dev:repo/dist/ .</code>
+        </p>
+        <p>
+          These Bash scripts make several assumptions listed <a href="https://github.com/alexkuc/remote-dev-server-scripts/blob/master/README.md" target="_blank">here</a>. Installation of development dependencies should be done directly on droplet to avoid network overhead (use SSH). Make sure to set correct permissions for web content folder as described in <a href="#nginx-permissions" data-smooth-scroll>Nginx section</a> if you want to serve files over HTTP/HTTPS.
         </p>
         <hr>
       </div>
