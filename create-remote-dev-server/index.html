@@ -449,6 +449,12 @@ groupdel username</code></li>
         <p>
           These Bash scripts make several assumptions listed <a href="https://github.com/alexkuc/remote-dev-server-scripts/blob/master/README.md" target="_blank">here</a>. Installation of development dependencies should be done directly on droplet to avoid network overhead (use SSH). Make sure to set correct permissions for web content folder as described in <a href="#nginx-permissions" data-smooth-scroll>Nginx section</a> if you want to serve files over HTTP/HTTPS.
         </p>
+        <div class="callout warning">
+          <p class="h5">Troubleshooting tips for beginners</p>
+          <p>
+            If you run into permission errors, remove directory <code>/home/developer/repo</code> (droplet) using <code>sudo</code> (or root account) and re-run sync scripts.
+          </p>
+        </div>
         <hr>
       </div>
       <div id="conclusion" class="cell small-10 text-center">
