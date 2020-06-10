@@ -281,6 +281,16 @@ groupdel username</code></li>
         <p>
           Canonical published an excellent step-by-step <a href="https://ubuntu.com/tutorials/install-and-configure-nginx#1-overview" target="_blank">tutorial</a> on installing Nginx in Ubuntu.
         </p>
+        <div class="callout primary">
+          <p>
+            Canonical article tells you to create your website config in <code>sites-enabled/</code> directory. Alternatively, you can create your site config in <code>sites-available/</code> and symlink it to <code>sites-enabled/</code>. This way you can easily enable/disable site config. When you create a symlink, you <em>must</em> use absolute path: <code class="code-block">ln -s /etc/nginx/sites-available/site_config /etc/nginx/sites-enabled/</code>
+          </p>
+        </div>
+        <div class="callout primary">
+          <p>
+            Canonical article tells you to restart nginx whenever you make config modification via <code>service nginx restart</code>. Alternatively, you may simply reload config instead which is considered a safer option (<a href="https://stackoverflow.com/questions/13525465/when-to-restart-and-not-reload-nginx" target="_blank">more details here</a>): <code class="code-block">service nginx reload</code>
+          </p>
+        </div>
         <p>
           <a data-toggle="nginx-config">Show sample nginx site config</a>
         </p>
@@ -307,27 +317,48 @@ groupdel username</code></li>
         <p>
           The limit lies in the fact that others will not be able to use the same domain name unless they also modify their <i>hosts</i> file. For the exact location of the <i>hosts</i> file, please consult <a href="https://en.wikipedia.org/wiki/Hosts_(file)#Location_in_the_file_system" target="_blank">this document</a> as its location varies per operating system.
         </p>
-        <div class="callout primary">
-          <p class="h5">Quick information for beginners:</p>
+        <div class="callout alert">
+          <p class="h3">Do Not Use .dev TLD</p>
           <ul>
-            <li>Config files location: <code>/etc/nginx</code></li>
-            <li>Primary config file: <code>nginx.conf</code></li>
-            <li>Auto-loading configs from: <code>conf.d/</code></li>
-            <li>Add website configs to: <code>sites-available/</code></li>
-            <li>Enable website by symlinking from <code>sites-available/</code> to <code>sites-enabled/</code></li>
-            <li>Create a symbolic link by running <code class="code-block">ln -s source destination</code></li>
-            <li>When creating a symlink, <strong>make sure to use an absolute path</strong></li>
-            <li><a href="https://unix.stackexchange.com/questions/7769/should-i-include-a-trailing-slash-in-a-symlink-to-a-directory" target="_blank">Should I include a trailing slash / in a symlink to a directory?</a></li>
+            <li>
+              <a href="https://medium.engineering/use-a-dev-domain-not-anymore-95219778e6fd">Use a .dev domain? Not anymore.</a>
+            </li>
+            <li>
+              <a href="https://ma.ttias.be/chrome-force-dev-domains-https-via-preloaded-hsts/">Chrome & Firefox now force .dev domains to HTTPS via preloaded HSTS</a>
+            </li>
+            <li>
+              <a href="https://stackoverflow.com/questions/47768289/chrome-redirects-dev-to-https">Chrome redirects .dev to https</a>
+            </li>
           </ul>
         </div>
-        <div class="callout warning">
+        <div class="callout primary">
+          <p class="h5">Quick information for beginners</p>
+          <ul>
+            <li>Quick commands reference:</li>
+            <ul>
+              <li>Restart: <code class="code-block">services nginx restart</code></li>
+              <li>Reload: <code class="code-block">services nginx reload</code></li>
+              <li>Test config: <code class="code-block">nginx -t</code></li>
+            </ul>
+            <li>Quick file reference:</li>
+            <ul>
+              <li>Config files location: <code>/etc/nginx</code></li>
+              <li>Primary config file: <code>nginx.conf</code></li>
+              <li>Auto-load configs from: <code>conf.d/</code></li>
+              <li>Add website configs to: <code>sites-available/</code></li>
+              <li>Auto-load websites from: <code>sites-enabled/</code></li>
+            </ul>
+          </ul>
+        </div>
+        <div id="nginx-permissions" class="callout warning">
           <h2 class="h5">Nginx and Permissions</h2>
           <ul>
-            <li>To serve output directory (e.g. <code>dist/</code>) via Nginx you would use <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#root" target="_blank">root directive</a></li>
-            <li>The specified folder needs to have the following permissions,</li>
+            <li>Web content directory (<a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#root" target="_blank">root directive</a>) needs to have:</li>
+            <ul>
+              <li>owner: <code class="code-block">chown developer:www-data root_folder</code></li>
+              <li>permissions: <code class="code-block">chmod 755 root_folder</code></li>
+            </ul>
             <li>Otherwise, you will run into <a href="https://stackoverflow.com/questions/6795350/nginx-403-forbidden-for-all-files" target="_blank">403 permission denied</a> error:</li>
-            <li>Root folder (owner): <code class="code-block">chown developer:www-data root_folder</code></li>
-            <li>Root folder (permissions): <code class="code-block">chmod 755 root_folder</code></li>
           </ul>
         </div>
         <div class="callout warning">
@@ -401,18 +432,8 @@ groupdel username</code></li>
           If you want to do one-off sync with remote, run: <code class="code-block">./sync.sh</code>
         </p>
         <p>
-          These Bash scripts make several assumptions described <a href="https://github.com/alexkuc/remote-dev-server-scripts/blob/master/README.md" target="_blank">here</a>. Installation of dependencies should be done on remote by ssh'ing into it.
+          These Bash scripts make several assumptions described <a href="https://github.com/alexkuc/remote-dev-server-scripts/blob/master/README.md" target="_blank">here</a>. Installation of dependencies should be done on remote by ssh'ing into it. Make sure to set correct permissions for web content folder as described in <a href="#nginx-permissions" data-smooth-scroll>Nginx section</a> (if applies).
         </p>
-        <div class="callout warning">
-          <h2 class="h5">Nginx and Permissions</h2>
-          <ul>
-            <li>To serve output directory (e.g. <code>dist/</code>) via Nginx you would use <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#root" target="_blank">root directive</a></li>
-            <li>The specified folder needs to have the following permissions,</li>
-            <li>Otherwise, you will run into <a href="https://stackoverflow.com/questions/6795350/nginx-403-forbidden-for-all-files" target="_blank">403 permission denied</a> error:</li>
-            <li>The root folder (owner): <code class="code-block">chown developer:www-data root_folder</code></li>
-            <li>The root folder (permissions): <code class="code-block">chmod 755 root_folder</code></li>
-          </ul>
-        </div>
         <hr>
       </div>
       <div id="conclusion" class="cell small-10 text-center">
