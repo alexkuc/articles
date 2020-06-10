@@ -35,3 +35,8 @@ code {
 .addthis_inline_share_toolbox {
   text-align: center;
 }
+
+.toc {
+  list-style: none;
+  text-align: center;
+}
