@@ -46,7 +46,138 @@
     <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ee1462aa4ce2b4d"></script>
   </head>
   <body>
-    <h1>Test</h1>
+    <div class="grid-x grid-padding-x grid-padding-y">
+      <div class="cell small-12 text-center">
+        <h1>Automate Creation of Development Server</h1>
+      </div>
+      <div id="toc" class="cell small-12 text-center">
+        <h2>
+          <a href="#toc" data-smooth-scroll>Table of Content</a>
+        </h2>
+      </div>
+      <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
+        <ul class="toc">
+          <li><a href="#intro" data-smooth-scroll>Introduction</a></li>
+          <li><a href="#cool-features" data-smooth-scroll>Cool Features</a></li>
+          <li><a href="#usage" data-smooth-scroll>Usage</a></li>
+          <li><a href="#env-vars" data-smooth-scroll>Environment Variables</a></li>
+          <li><a href="#conclusion" data-smooth-scroll>Conclusion</a></li>
+        </ul>
+        <hr>
+      </div>
+      <div id="intro" class="cell small-12 text-center">
+        <h2>
+          <a href="#intro" data-smooth-scroll>Introduction</a>
+        </h2>
+      </div>
+      <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
+        <p>
+          In <a href="https://alexkuc.github.io/articles/create-remote-dev-server/" class="href" target="_blank">part one</a>, I have shown how to create a remote development server on DigitalOcean and how to sync local files to remote using rsync. In part two, I will show how to automate the entire process so you can create and destroy (and repeat the process) as many times as you wish with "a press of a button".
+        </p>
+        <p>
+          At the very foundation of this process lies a custom Bash script which uses <a href="https://github.com/digitalocean/doctl" target="_blank">doctl, a cli interface for DigitalOcean</a>. Before we get started, you need to install. Please follow <a href="https://github.com/digitalocean/doctl#installing-doctl">these instructions</a> (they cover a wide variety of OS). Configuration of the droplet is done via <a href="https://cloudinit.readthedocs.io/en/latest/">cloud-init</a> ( <code>cloud-config.yml</code> ).
+        </p>
+        <p>
+          Now please clone <a href="" target="_blank">this repository</a> as it contains the necessary Bash script. If required, make it executable by running: <code class="code-block">chmod +x do.sh</code>
+        </p>
+        <p>
+          To make it accessible for anywhere, copy it (or better symlink it to always access the latest version) to <code>/usr/local/bin</code>.
+        </p>
+        <div class="callout primary">
+          <p>
+            Pro tip: you can rename the script to access it under your own custom name, e.g. <code>ln -s do.sh /usr/local/bin/potato</code>. After doing this, you can run <code>potato</code> from anywhere.
+          </p>
+        </div>
+        <hr>
+      </div>
+      <div id="cool-features" class="cell small-12 text-center">
+        <h2>
+          <a href="#cool-features" data-smooth-scroll>Cool Features</a>
+        </h2>
+      </div>
+      <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
+        <p>
+          <ul>
+            <li>command chaining</li>
+            <li>overwritable settings (env vars)</li>
+            <li>separate command <code>cmd</code> to rewrite path in output</li>
+            <li>ssh sockets to avoid constant reconnection</li>
+            <li>singleton pattern: avoid creating more than 1 droplet at a time</li>
+            <li>a number of useful built-in commands to type less</li>
+          </ul>
+        </p>
+        <hr>
+      </div>
+      <div id="usage" class="cell small-12 text-center">
+        <h2>
+          <a href="#usage" data-smooth-scroll>Usage</a>
+        </h2>
+      </div>
+      <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
+        <p>
+          Using <code>do.sh</code> is very simple. To get started, type <code>do.sh help</code> which will show you a list of available commands. <em>Some</em> commands support chaining, e.g., <code>do.sh up prep sync</code>. Which will run in sequential order. Generally, you can chain commands which have a definite number of arguments such as <code>up</code> or <code>down</code>. Commands like <code>ssh</code>, <code>cmd</code> and <code>copy</code> can have any number of arguments so these do not support chaining. A good workaround is to add these commands at the very end, e.g. <code>do.sh up copy file1 file2 file3</code>.
+        </p>
+        <p>
+          Below is a list of available commands: <code class="code-block">up            create dev server
+down          destory dev server
+reset         re-create dev server
+sync          rsync from local to remote
+watch         watch local for changes and sync
+deps          install Node deps on remote
+prep[are]     shortcut for sync -> deps -> watch
+ssh           start interactive ssh session
+ssh &#x3C;cmd&#x3E;     execute command on droplet
+cmd           ssh &#x3C;cmd&#x3E; and replace cwd with local
+cp &#x3C;path&#x3E;     copy from remote to local (cwd)
+copy          see cp &#x3C;path&#x3E;
+scp           see cp &#x3C;path&#x3E;
+dist          shortcut to copying dist/ from remote
+host          show public ip of remote
+help          show available commands</code>
+        </p>
+        <p>
+          Here is an example of my workflow. I start with <code>up</code>, followed by <code>prep</code>. As this script supports chaining, here is what I do: <code>do.sh up prep</code>. If I need to run a command after copying files, I execute <code>do.sh sync cmd &#x3C;cmd&#x3E;</code>. Path re-write is useful if I want to be able to c&p path from error stack straight away (<code>cmd</code>). For instance, I use iTerm which supports semantic history and with path re-write, I can open files directly from console.
+        </p>
+        <hr>
+      </div>
+      <div id="env-vars" class="cell small-12 text-center">
+        <h2>
+          <a href="#env-vars" data-smooth-scroll>Environment Variables</a>
+        </h2>
+      </div>
+      <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
+        <p>
+          This script supports so-called settings via environment variables overrides. Here is a list of supported overrides:
+        </p>
+        <ul>
+          <li><code>NAME</code> name of droplet, defaults to <code>dev-server</code></li>
+          <li><code>IMAGE</code> os (image) to be used, defaults to <code>ubuntu-20-04-x64</code></li>
+          <li><code>SPECS</code> droplet specs, defaults to <code>s-2vcpu-2gb</code>; find out more specs by running <code>doctl compute size list</code></li>
+          <li><code>REGION</code> droplet datacenter, defaults to <code>lon1</code></li>
+          <li><code>CLOUD_CONFIG</code> location of cloud config, defaults to <code>./dev-server/cloud-config.yml</code></li>
+          <li><code>SSH_KEY</code> local path to private ssh key, defaults to <code>~/.ssh/developer</code></li>
+          <li><code>SSH_USER</code> ssh user, defaults to <code>developer</code></li>
+          <li><code>SSH_HOST</code> ssh host, defaults to none; the value is gotten when <code>up</code> command is run and saved to <code>SSH_OUTPUT</code></li>
+          <li><code>SSH_SOCKET</code> local path for ssh socket, defaults to none; once <code>SSH_HOST</code> is available, the value becomes <code>${HOME}/.ssh/sockets/$SSH_USER@$SSH_HOST</code></li>
+          <li><code>SSH_CWD</code> value of <code>pwd</code> on remote host</li>
+          <li><code>LOCAL_CWD</code> value of <code>pwd</code> on local host</li>
+          <li><code>SSH_OUTPUT</code> local path where <code>SSH_HOST</code> value is saved, defaults to <code>/tmp/dev_ssh_host</code></li>
+          <li><code>SSH_OUTPUT2</code> local path where <code>pwd</code> of remote host is saved, defaults to <code>/tmp/dev_ssh_cwd</code></li>
+        </ul>
+        <hr>
+      </div>
+      <div id="conclusion" class="cell small-12 text-center">
+        <h2>
+          <a href="#conclusion" data-smooth-scroll>Conclusion</a>
+        </h2>
+      </div>
+      <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
+        <p>
+          In this article I have shown a Bash script which automates creation of remote development server. <a href="https://alexkuc.github.io/articles/create-remote-dev-server/" target="_blank">Part one</a> went into technical details of setting up the droplet while this part (part two) automates this process.
+        </p>
+        <hr>
+      </div>
+    </div>
     <div id="footer">
       <p>Copyright &copy; Alexander Kucheryuk 2020</p>
       <p>
