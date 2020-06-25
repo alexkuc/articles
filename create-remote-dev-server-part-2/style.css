@@ -1,0 +1,34 @@
+div.grid-x {
+  justify-content: center;
+}
+
+div#footer {
+  text-align: center;
+  letter-spacing: 0.25em;
+}
+
+code {
+  white-space: nowrap;
+}
+
+.code-block {
+  margin-top: 1.5em;
+}
+
+.callout .code-block {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.hide-bullet {
+  list-style:none;
+}
+
+.addthis_inline_share_toolbox {
+  text-align: center;
+}
+
+.toc {
+  list-style: none;
+  text-align: center;
+}
