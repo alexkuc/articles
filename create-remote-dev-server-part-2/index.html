@@ -98,12 +98,14 @@
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
           <ul>
-            <li>command chaining</li>
+            <li>one-button solution, to get started, do: <code>do.sh start</code></li>
+            <li>suuport command chaining, e.g. <code>do.sh up prep sync</code></li>
             <li>overwritable settings (env vars)</li>
             <li>separate command <code>cmd</code> to rewrite path in output</li>
-            <li>ssh sockets to avoid constant reconnection</li>
+            <li>ssh socket to avoid constant reconnection</li>
             <li>singleton pattern: avoid creating more than 1 droplet at a time</li>
             <li>a number of useful built-in commands to type less</li>
+            <li>for more details, please see <a href="https://github.com/alexkuc/remote-dev-server-scripts" target="_blank">the repository</a></li>
           </ul>
         </p>
         <hr>
@@ -115,28 +117,31 @@
       </div>
       <div class="cell small-10 medium-8 large-7 xlarge-6 xxlarge-5">
         <p>
-          Using <code>do.sh</code> is very simple. To get started, type <code>do.sh help</code> which will show you a list of available commands. <em>Some</em> commands support chaining, e.g., <code>do.sh up prep sync</code>. Which will run in sequential order. Generally, you can chain commands which have a definite number of arguments such as <code>up</code> or <code>down</code>. Commands like <code>ssh</code>, <code>cmd</code> and <code>copy</code> can have any number of arguments so these do not support chaining. A good workaround is to add these commands at the very end, e.g. <code>do.sh up copy file1 file2 file3</code>.
+          Using <code>do.sh</code> is very simple. To get started, type <code>do.sh help</code> which will show you a list of available commands. <em>Some</em> commands support chaining, e.g., <code>do.sh up prep sync</code> which will run in sequential order. Generally, you can chain commands which have a fixed number of arguments such as <code>up</code> or <code>down</code>. Commands like <code>ssh</code>, <code>cmd</code> and <code>copy</code> can have any number of arguments so these do not support chaining. A good workaround is to add these commands at the very end, e.g. <code>do.sh up copy file1 file2 file3</code>.
         </p>
         <p>
-          Below is a list of available commands: <code class="code-block">up            create dev server
-down          destory dev server
-reset         re-create dev server
-sync          rsync from local to remote
-watch         watch local for changes and sync
-deps          install Node deps on remote
-prep[are]     shortcut for sync -> deps -> watch
-ssh           start interactive ssh session
-ssh &#x3C;cmd&#x3E;     execute command on droplet
-cmd           ssh &#x3C;cmd&#x3E; and replace cwd with local
-cp &#x3C;path&#x3E;     copy from remote to local (cwd)
-copy          see cp &#x3C;path&#x3E;
-scp           see cp &#x3C;path&#x3E;
-dist          shortcut to copying dist/ from remote
-host          show public ip of remote
-help          show available commands</code>
+          Below is a list of available commands: <code class="code-block">up         create dev server *
+down       destory dev server *
+reset      re-create dev server *
+sync       rsync from local to remote *
+watch      watch local for changes and sync
+deps       install Node deps on remote *
+prep[are]  shortcut for sync -&gt; deps -&gt; watch
+ssh        start interactive ssh session
+ssh &lt;cmd&gt;  execute command on droplet
+cmd &lt;cmd&gt;  ssh &lt;cmd&gt; and replace cwd with local
+scp&lt;path&gt;  copy from remote to local (cwd)
+copy&lt;path&gt; copy from local to remote (~/.repo/)
+cp &lt;path&gt;  alias to copy command
+dist       shortcut to copying dist/ from remote *
+host       show public ip of remote *
+config     create config from env var CLOUD_CONFIG *
+help       show available commands
+
+* these commands support chaining, e.g. do.sh up prep sync</code>
         </p>
         <p>
-          Here is an example of my workflow. I start with <code>up</code>, followed by <code>prep</code>. As this script supports chaining, here is what I do: <code>do.sh up prep</code>. If I need to run a command after copying files, I execute <code>do.sh sync cmd &#x3C;cmd&#x3E;</code>. Path re-write is useful if I want to be able to c&p path from error stack straight away (<code>cmd</code>). For instance, I use iTerm which supports semantic history and with path re-write, I can open files directly from console.
+          Here is an example of my workflow. I start with <code>up</code>, followed by <code>prep</code>. As this script supports chaining, here is what I do: <code>do.sh up prep</code>. If I need to run a command after copying files, I execute <code>do.sh sync cmd &#x3C;cmd&#x3E;</code>. Path re-write is useful if I want to be able to c&p path from error stack straight away (<code>cmd</code>). For instance, I use iTerm which supports semantic history and with path re-write, I can open files directly from console on my local system.
         </p>
         <hr>
       </div>
@@ -150,19 +155,19 @@ help          show available commands</code>
           This script supports so-called settings via environment variables overrides. Here is a list of supported overrides:
         </p>
         <ul>
-          <li><code>NAME</code> name of droplet, defaults to <code>dev-server</code></li>
+          <li><code>NAME</code> name of the droplet, defaults to <code>dev-server</code></li>
           <li><code>IMAGE</code> os (image) to be used, defaults to <code>ubuntu-20-04-x64</code></li>
           <li><code>SPECS</code> droplet specs, defaults to <code>s-2vcpu-2gb</code>; find out more specs by running <code>doctl compute size list</code></li>
           <li><code>REGION</code> droplet datacenter, defaults to <code>lon1</code></li>
           <li><code>CLOUD_CONFIG</code> location of cloud config, defaults to <code>./dev-server/cloud-config.yml</code></li>
           <li><code>SSH_KEY</code> local path to private ssh key, defaults to <code>~/.ssh/developer</code></li>
           <li><code>SSH_USER</code> ssh user, defaults to <code>developer</code></li>
-          <li><code>SSH_HOST</code> ssh host, defaults to none; the value is gotten when <code>up</code> command is run and saved to <code>SSH_OUTPUT</code></li>
+          <li><code>SSH_HOST</code> ssh host, defaults to none; the value is configured at runtime when <code>up</code> command is run and saved to <code>SSH_OUTPUT</code></li>
           <li><code>SSH_SOCKET</code> local path for ssh socket, defaults to none; once <code>SSH_HOST</code> is available, the value becomes <code>${HOME}/.ssh/sockets/$SSH_USER@$SSH_HOST</code></li>
-          <li><code>SSH_CWD</code> value of <code>pwd</code> on remote host</li>
+          <li><code>SSH_CWD</code> value of <code>pwd</code> on remote host, configured at runtime</li>
           <li><code>LOCAL_CWD</code> value of <code>pwd</code> on local host</li>
-          <li><code>SSH_OUTPUT</code> local path where <code>SSH_HOST</code> value is saved, defaults to <code>/tmp/dev_ssh_host</code></li>
-          <li><code>SSH_OUTPUT2</code> local path where <code>pwd</code> of remote host is saved, defaults to <code>/tmp/dev_ssh_cwd</code></li>
+          <li><code>SSH_HOST_FILE</code> local path where <code>SSH_HOST</code> value is saved, defaults to <code>/tmp/dev_ssh_host</code></li>
+          <li><code>SSH_CWD_FILE</code> local path where <code>pwd</code> of remote host is saved, defaults to <code>/tmp/dev_ssh_cwd</code></li>
         </ul>
         <hr>
       </div>
